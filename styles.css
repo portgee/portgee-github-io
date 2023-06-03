@@ -1,0 +1,39 @@
+body {
+    background-image: url("assets/light-background.gif");    
+    background-repeat:repeat; 
+    background-size: cover;
+  } 
+
+  .themeContainer {
+    position: relative;
+    top: 25px;
+    right: 48%;
+  }
+  
+  .sun,.moon {
+    position: absolute;
+    top: 18%;
+    left: 50.275%;
+    transform: translate(-50%, -50%);
+    width: 70px;
+    height: 70px;
+    z-index: 2;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+  
+  .sun {
+    opacity: 1;
+  }
+  
+  .moon {
+    opacity: 1;
+  }
+  
+  .sun.hidden {
+    opacity: 0;
+  }
+  
+  .moon.hidden {
+    opacity: 0;
+  }
