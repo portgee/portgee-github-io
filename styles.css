@@ -1,7 +1,6 @@
 body {
-    background-image: url("assets/light-background.gif");    
-    background-repeat:repeat; 
-    background-size: cover;
+  background: url('assets/light-background.gif') no-repeat center;
+  background-size: cover;
   } 
 
   .themeContainer {
