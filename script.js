@@ -2,10 +2,16 @@ function toggleTheme() {
   const sun = document.querySelector(".sun");
   const moon = document.querySelector(".moon");
   const body = document.querySelector("body");
-  const about = document.getElementById("aboutMe")
+  const textStyle = document.getElementById("#textStyle");
+  const about = document.getElementById("#aboutMe");
 
   moon.classList.toggle("hidden");
   sun.classList.toggle("hidden");
+
+  textStyle.style.color = moon.classList.contains("hidden")
+    ? "black"
+    : "white"
+  
   about.style.backgroundColor = moon.classList.contains("hidden")
     ? "#947BEC"
     : "black"

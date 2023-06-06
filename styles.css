@@ -50,14 +50,15 @@ body {
 }
 
 #aboutMe {
-  width: 50%;
-  height: 70%;
+  width: 40%;
+  height: 50%;
   border-radius: 15px;
   padding: 10px;
+  margin: 10px;
   background-color: #947BEC;
   border: 5px solid #1A5495;
 }
 
-.textStyle {
+#textStyle {
   font-family: "orbitron";
 }
