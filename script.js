@@ -5,7 +5,7 @@ function toggleTheme() {
   const sun = document.querySelector(".sun");
   const moon = document.querySelector(".moon");
   const body = document.querySelector("body");
-  const textStyles = document.getElementsByClassName("textStyle");
+  const textStyle = document.getElementsByClassName("textStyle");
   const sideBar = document.getElementById("sideBar");
   const aboutMe = document.getElementById("aboutMe");
 
@@ -20,8 +20,8 @@ function toggleTheme() {
   moon.classList.toggle("hidden");
   sun.classList.toggle("hidden");
 
-  for (let i = 0; i < textStyles.length; i++) {
-    textStyles[i].style.color = moon.classList.contains("hidden") ? "black" : "white";
+  for (let i = 0; i < textStyle.length; i++) {
+    textStyle[i].style.color = moon.classList.contains("hidden") ? "black" : "white";
   }
 
   aboutMe.style.backgroundColor = moon.classList.contains("hidden") ? "#947BEC" : "#0d0d0d";
@@ -40,8 +40,7 @@ function darkenColor(color) {
 }
 
 const particles = [];
-const particleCount = 25;
-
+const particleCount = 12;
 class Particle {
   constructor(x, y) {
     this.x = x;
@@ -103,8 +102,9 @@ const ctx = canvas.getContext('2d');
 document.body.appendChild(canvas);
 
 canvas.style.position = 'absolute';
-canvas.style.top = '0';
-canvas.style.left = '0';
+canvas.style.top = 0;
+canvas.style.left = 0;
+canvas.style.zIndex = -1;
 canvas.style.pointerEvents = 'none';
 
 function resizeCanvas() {
