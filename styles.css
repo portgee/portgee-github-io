@@ -1,6 +1,6 @@
 html {
   height: 100%;
-  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 body {
@@ -14,9 +14,9 @@ body {
 
 .sun,
 .moon {
-  position: absolute;
-  top: -2px;
-  left: -5px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
   width: 70px;
   height: 70px;
   z-index: 2;
@@ -50,12 +50,12 @@ body {
 }
 
 #aboutMe {
-  width: 50%;
+  width: 25%;
   height: 70%;
   border-radius: 15px;
   padding: 10px;
   background-color: #947BEC;
-  border: 5px solid #1A5495;
+  border: 6.5px solid #1A5495;
 }
 
 .textStyle {
