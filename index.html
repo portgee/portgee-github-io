@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>Portgee's Pond</title>
+  <link rel="icon" type="image/x-icon" href="/assets/moon_icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
@@ -8,9 +10,13 @@
   <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <div class="themeContainer">
-    <img src="assets/sun.png" alt="Sun" class="sun" onclick="toggleTheme()"/>
-    <img src="assets/moon.png" alt="Moon" class="moon hidden" onclick="toggleTheme()"/>
+    <div id="blurContainer">
+      <div id="blurBar">
+      </div>
+      <div class="themeContainer">
+        <img src="assets/sun.png" alt="Sun" class="sun" onclick="toggleTheme()"/>
+        <img src="assets/moon.png" alt="Moon" class="moon hidden" onclick="toggleTheme()"/>
+      </div>
     </div>
     <div id="container">
       <div id="innerContainer">
