@@ -21,7 +21,7 @@ function toggleTheme() {
   sun.classList.toggle("hidden");
 
   for (let i = 0; i < textStyle.length; i++) {
-    textStyle[i].style.color = moon.classList.contains("hidden") ? "black" : "white";
+    textStyle[i].style.color = moon.classList.contains("hidden") ? "aqua" : "pink";
   }
 
   topElements.style.backgroundColor = moon.classList.contains("hidden") ? "#947BEC" : "#0d0d0d";
