@@ -7,7 +7,7 @@ function toggleTheme() {
   const body = document.querySelector("body");
   const textStyle = document.getElementsByClassName("textStyle");
   const sideBar = document.getElementById("sideBar");
-  const aboutMe = document.getElementById("aboutMe");
+  const topElements = document.getElementById("topElements");
 
   if (themeTog === 1) {
     themeTog = 0;
@@ -24,7 +24,7 @@ function toggleTheme() {
     textStyle[i].style.color = moon.classList.contains("hidden") ? "black" : "white";
   }
 
-  aboutMe.style.backgroundColor = moon.classList.contains("hidden") ? "#947BEC" : "#0d0d0d";
+  topElements.style.backgroundColor = moon.classList.contains("hidden") ? "#947BEC" : "#0d0d0d";
 
   sideBar.style.backgroundColor = moon.classList.contains("hidden") ? "#947BEC" : "#0d0d0d";
 

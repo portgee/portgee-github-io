@@ -62,7 +62,7 @@ body {
   display: flex;
 }
 
-#aboutMe {
+#topElements {
   width: 70%;
   height: 50%;
   background-color: #947BEC;
@@ -77,6 +77,6 @@ body {
   border: 6.5px solid #1A5495;
 }
 
-#textStyle {
-  font-family: "orbitron";
+.textStyle {
+  font-family: 'Orbitron', sans-serif;
 }
