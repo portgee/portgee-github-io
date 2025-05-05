@@ -144,39 +144,41 @@ body {
   transform: none;
   z-index: 5;
 }
-
 #itemCatalog {
   position: absolute;
-  left: 10%;
-  width: 10%;
+  left: -200px;
+  width: 240px;
   height: 80vh;
   margin-top: 5vh;
   overflow: visible;
-  transform: translateX(60%);
-  z-index: 3;
+  z-index: 1;
   font-size: 1.2vh;
-  transition: transform 0.3s ease, z-index 0s linear 0.3s; /* smooth transition */
+  transform: none;
+  transition: left 0.3s ease, z-index 0s linear 0.3s;
+}
+
+#itemCatalog:hover {
+  left: 0;
+  z-index: 1;
+  transition: left 0.3s ease, z-index 0s;
 }
 
 #itemCatalogInner {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  row-gap: 5px;
-  column-gap: 5px;
+  gap: 5px;
   padding: 5px;
   overflow-y: auto;
   overflow-x: hidden;
-  height: calc(100% - 60px);
-  justify-items: center;
-  align-items: start;
+  height: calc(100% - 20px); /* adjust for parent padding */
+  box-sizing: border-box;
 }
 
 .catalog-item {
-  width: 80px;
+  width: 100%;
+  max-width: 80px;
   height: 80px;
-  background: #23272a;
-  background-size: cover;
-  background-position: center;
+  background: #23272a center / cover no-repeat;
   border: 2px solid #7289da;
   border-radius: 10px;
   cursor: pointer;
@@ -185,8 +187,8 @@ body {
   margin: 0;
   outline: none;
   appearance: none;
-  background-repeat: no-repeat;
 }
+
 
 .catalog-item:hover:not(:active) {
   transform: scale(1.1);
@@ -197,11 +199,6 @@ body {
   transition: transform 0.1s ease;
 }
 
-#itemCatalog:hover {
-  transform: translateX(-20%);
-  z-index: 3;
-  transition: transform 0.3s ease, z-index 0s;
-}
 
 #itemPlaygroundWrapper {
   position: absolute;
@@ -418,7 +415,7 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  z-index: 2;
+  z-index: 6;
   transform: none;
 }
 
