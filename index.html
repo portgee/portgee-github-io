@@ -2,25 +2,150 @@
 <html>
 <head>
   <title>Portgee's Pond</title>
-  <link rel="icon" type="image/x-icon" href="/assets/moon_icon.png">
-  <title>Portgee's Website</title>
+  <link rel="icon" type="image/x-icon" href="assets/sun.png">
   <link rel="stylesheet" type="text/css" href="styles.css">
-  <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 </head>
 <body>
-    <div class="themeContainer">
+    <div id="oneko"></div>
+    <div id="themeContainer">
       <img src="assets/sun.png" alt="Sun" class="sun" onclick="toggleTheme()"/>
       <img src="assets/moon.png" alt="Moon" class="moon hidden" onclick="toggleTheme()"/>
     </div>
-    <div id="container">
-      <div id="innerContainer">
-        <div id="topElements" style="overflow: hidden; text-overflow: ellipsis;">
-          <div style="display: flex; width: 100%; justify-content: center; font-size: 15px;"><h1 class="textStyle">About Me</h1></div>
-          <div style="display: flex; font-size: 20px; width: 95%; left: 2.5%; position: relative;"><p class="textStyle">Hey, im a begineer developer learning more languages. So far I know: Basic HTML, Basic CSS, Basic JavaScript, Python, and Skript. I hope to learn more and major in computer sciences!</p></div>
-        </div>
-        <div id="sideBar" style="font-size: 15px; text-align: center; overflow: hidden; text-overflow: ellipsis;"><h1 class="textStyle">Socials</h1></div>
-      </div>
+
+    <div id="eventBar" class="mainGui">
+      <p1 id="eventBarText" class="animatedText"
+      data-colors="#ff7e5f,#feb47b,#86a8e7,#91eae4,#ff7e5f"
+      data-angle="90" 
+      data-speed="10" 
+      data-background-size="800% 800%" 
+      data-easing="ease-in-out">
+      Event: None
+      </p1>
     </div>
-  <script src="script.js"></script>
+
+    <div id="container">
+      <div class="mainGui" id="sidebar">
+        <button class="mainButton" onclick="scrollToSection('middleGui')">:blahajSpin: Homepage</button>
+        <button class="mainButton" onclick="scrollToSection('itemPlayground')">🛝 Item Playground</button>
+        <button class="mainButton" onclick="scrollToSection('lootboxArea')">:femboy: Femboy Lootbox</button>
+        <button class="mainButton" onclick="scrollToSection('paintArea')">🎨 Paint</button>
+        <button class="mainButton" onclick="scrollToSection('virtualDesktop')">🖥️ Virtual Desktop</button>
+        <button class="mainButton" onclick="addItem()">:animalLickingCinnamonroll: Upload Item</button>
+        <input type="file" id="fileInput" style="display:none" accept="image/*" onchange="handleFileUpload(event)">
+      </div>
+      <div id="mainContent">
+        <div class="mainGui" id="middleGui">
+          <h1 class="animatedText" 
+            data-colors="#ff00c8,#1472ff,#00ffd5,#ff00c8" 
+            data-angle="270" 
+            data-speed="8" 
+            data-background-size="800% 800%" 
+            data-easing="ease-in-out">
+            Portgee's Pond
+          </h1>
+          <p1 class="animatedText"
+            data-colors="#ff00c8,#1472ff,#00ffd5,#ff00c8" 
+            data-angle="270" 
+            data-speed="8" 
+            data-background-size="800% 800%" 
+            data-easing="ease-in-out">
+            Welcome to my website! I'm a 17 year old computer science major (I'm definitely going to be working at McDonalds qwq). I currently know python, java, javascript, lua, and a bit of c++.
+          </p1>
+          <pre class="animatedText"
+            data-colors="#b67aff,#a188f7,#8f9dfc,#7eaefb,#6ec0fa,#5ed2f9,#4ee3f8,#3ed5f7,#2ec7f6"
+            data-angle="270"
+            data-speed="5"
+            data-background-size="800% 800%"
+            data-easing="ease-in-out">
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣴⡾⠟⠛⠿⣀⣤⣶⠶⠾⠟⠛⠛⠛⠛⠛⠛⠻⠷⠶⣦⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠋⠁⠀⠀⠀⠾⠻⠍⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⢓⣤⣤⣴⢶⣶⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣾⠋⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠋⠀⠀⠀⠀⠈⠙⠷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+  ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠾⠛⠁⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+  ⠀⠀⠀⠀⣀⣤⠶⠞⠋⠁⠀⠀⡀⢀⣾⠃⠀⠀⢠⡷⡷⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+  ⠀⢀⣴⠞⠋⠀⠀⠀⠀⠀⠀⢀⠃⢸⡏⠀⠀⠀⣼⢶⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⠛⢻⡀⠀⠀⠀⡄⠀⠀⠀⠀⠀⠀⠀⠀⢻⣆⠂⠀⠀⠀⠀⠀⠀⠀⠀
+  ⢠⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⢸⡀⣤⣀⡀⠉⠛⠛⠀⠀⠀⢰⡆⠀⠀⠀⠀⠀⡄⠀⠀⠀⠀⠀⢻⣿⣿⢿⡇⠀⠀⠐⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢷⣄⡀⠀⠀⠀⠀⠀⠀
+  ⠸⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣧⠀⣈⢉⠹⡆⠀⠀⠀⠀⠘⠷⠶⠚⠓⢶⡴⠛⠀⠀⠀⠀⠀⠈⠛⠿⠛⠀⠀⠀⠀⢸⣦⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠲⣦⣀⠀⠀⠀
+  ⠀⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢷⣄⠚⠚⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡞⡉⣉⢍⣻⢲⡀⢻⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢳⣄⠀
+  ⠀⠈⠻⣦⣄⠀⠀⠀⠀⠀⠀⠀⠀⣀⣴⠏⠙⠿⠦⢤⣄⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠿⠾⠿⠧⠼⢣⡈⢿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⡆
+  ⠀⠀⠀⠀⠙⠛⠿⠶⠶⠶⠶⠿⠛⠋⠁⠁⠀⠀⠀⠀⠀⠉⠉⠙⣻⣶⠶⠶⠦⠤⠤⣤⣤⣤⣄⣀⣀⣀⣀⣀⣠⣤⣥⡶⠶⠛⠛⠋⢻⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡇
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⣠⡾⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⡉⡉⠉⣹⣿⣂⠀⠄⠀⠀⠀⠀⠙⢷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡾⠁
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⡀⠼⠀⠀⠀⠀⠄⣿⠀⠀⢀⣠⣶⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⡶⠛⠉⠉⠙⠻⠷⢤⠀⠀⠀⠀⠀⠉⠻⢶⣤⣀⣀⣀⠀⣀⣤⡴⠏⠀⠀
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡽⢾⣿⣿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⢠⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⢳⡄⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠀⠀⠀⠀⠀
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⠁⠀⠙⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡟⠀⠀⠀⠀⢠⣴⠿⠶⢤⡀⠀⢹⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣧⡀⠀⠀⠀⢺⣧⠀⠀⠈⣷⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣷⡀⠀⠀⠈⠁⠀⠀⢰⡏⣠⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠛⠚⠋⠒⠚⠶⢤⣄⣀⣀⣀⣀⣀⣘⣻⣶⣦⣤⣄⣴⡶⢟⠕⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+        </pre>
+      </div>
+        <div id="itemPlaygroundContainer">
+          <div class="mainGui" id="itemPlayground">
+            <h1 class="animatedText" 
+                data-colors="#0000ff,#3366ff,#66ccff,#ffff66,#ffcc33,#ffff00"
+                data-angle="270" 
+                data-speed="8" 
+                data-background-size="800% 800%" 
+                data-easing="ease-in-out" style="text-align: center;">
+                Item Playground
+            </h1>
+            <div id="deleteZone"></div>
+            <div id="itemPlaygroundWrapper"></div>
+          </div>
+          <div class="mainGui" id="itemCatalog">
+            <h1 class="animatedText" 
+                data-colors="#0000ff,#3366ff,#66ccff,#ffff66,#ffcc33,#ffff00"
+                data-angle="270" 
+                data-speed="8" 
+                data-background-size="800% 800%" 
+                data-easing="ease-in-out" style="text-align: center;">
+                Item Catalog
+            </h1>
+
+            <div id="itemCatalogInner">
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/blahaj.gif');" onclick="spawnItem('blahaj.gif')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/bow.png');" onclick="spawnItem('bow.png')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/deathScythe.gif');" onclick="spawnItem('deathScythe.gif')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/diamond.png');" onclick="spawnItem('diamond.png')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/disc.png');" onclick="spawnItem('disc.png')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/empressOfLight.gif');" onclick="spawnItem('empressOfLight.gif')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/heartCrystal.gif');" onclick="spawnItem('heartCrystal.gif')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/kitty.png');" onclick="spawnItem('kitty.png')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/miku.png');" onclick="spawnItem('miku.png')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/monster.png');" onclick="spawnItem('monster.png')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/mushrooms.gif');" onclick="spawnItem('mushrooms.gif')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/pumpkinGuy.png');" onclick="spawnItem('pumpkinGuy.png')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/reimore.png');" onclick="spawnItem('reimore.png')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/sylveon.png');" onclick="spawnItem('sylveon.png')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/milk.png');" onclick="spawnItem('milk.png')"></button>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="mainGui" id="lootboxArea"></div>
+        <div class="mainGui" id="paintArea"><iframe src="jspaint/index.html"></iframe></div>
+        <div class="mainGui" id="virtualDesktop"></div>
+        <div class="mainGui" id="terminal">
+          <div id="output"></div>
+          <input type="text" id="inputLine" autofocus>
+        </div>      
+      </div>  
+  </div>
+  <script src="backgroundParticles.js"></script>
+  <script src="emojiSystem.js"></script>
+  <script src="main.js"></script>
+  <script src="theme.js"></script>
+  <script src="gradientText.js"></script>
+  <script src="itemPlayground.js"></script>
+  <script src="lootbox.js"></script>
+  <script src="virtualDesktop.js"></script>
+  <script src="terminal.js"></script>
+  <script src="particles.js" defer></script>
+  <script src="virtualPet.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+
 </body>
 </html>

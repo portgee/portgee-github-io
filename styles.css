@@ -1,9 +1,8 @@
-html {
+html, body {
   height: 100%;
-  width: 100%;
-  overflow-x: hidden;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 }
 
 body {
@@ -12,72 +11,519 @@ body {
   background-position: center;
 }
 
-.themeContainer {
+#container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 350vh;
+}
+
+#backgroundParticleContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+}
+
+#deleteZone {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 5%;
+  height: 15%;
+  background: url("assets/trashcan.png") no-repeat center center;
+  background-size: contain;
+  z-index: 1;
+}
+
+
+#mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 20px 0;
+}
+
+#themeContainer {
   position: relative;
 }
 
 .sun,
 .moon {
   position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 72px;
-  height: 72px;
+  top: 0;
+  left: 0;
+  width: 7%;
+  max-width: 125px;
+  height: auto;
   z-index: 2;
   cursor: pointer;
   transition: opacity 0.3s ease;
 }
 
-.sun {
-  opacity: 1;
-}
-
-.moon {
-  opacity: 1;
-}
-
-.sun.hidden {
-  opacity: 0;
-}
-
+.sun.hidden,
 .moon.hidden {
   opacity: 0;
 }
 
-#container {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
+.draggable {
+  touch-action: none;
+  user-select: none;
+}
+
+
+.mainGui {
+  background: linear-gradient(#00000096, #00000096), url('assets/starfallPurple.gif');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border: 8px solid #615eff;
+  border-radius: 15px;
+  color: white;
+  font-size: 2vh;
+  z-index: 5;
+  font-family: "Poppins", sans-serif;
+  margin-top: 5vh;
+  padding: 2rem;
+  transition: transform 0.5s;
+}
+
+.mainGui:hover {
+  transform: scale(1.05);
+}
+
+.mainButton {
+  width: 100%;
+  height: 5%;
+  color: white;
+  font-size: 1.3vh;
+  font-family: "Poppins", sans-serif;
+  transition: transform 0.5s, background-color 0.5s;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+}
+
+.mainButton:hover {
+  background-color: rgba(116, 116, 116, 0.363);
+  transform: scale(1.05);
+}
+
+#middleGui {
+  background: linear-gradient(#0000004b, #0000004b), url('assets/starsColor.gif');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  text-align: center;
+  width: 60%;
+  height: auto;
+  font-family: monospace;
+  overflow: visible;
+}
+
+#itemPlaygroundContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
-#innerContainer {
-  width: 65%;
-  height: 80%;
-  border-radius: 15px;
-  padding: 10px;
-  margin: 10px;
+#itemPlayground {
+  position: relative;
+  width: 60%;
+  height: 80vh;
+  margin-top: 5vh;
+  overflow: visible;
+  transform: none;
+  z-index: 5;
+}
+
+#itemCatalog {
+  position: absolute;
+  left: 10%;
+  width: 10%;
+  height: 80vh;
+  margin-top: 5vh;
+  overflow: visible;
+  transform: translateX(60%);
+  z-index: 3;
+  font-size: 1.2vh;
+  transition: transform 0.3s ease, z-index 0s linear 0.3s; /* smooth transition */
+}
+
+#itemCatalogInner {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 5px;
+  column-gap: 5px;
+  padding: 5px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: calc(100% - 60px);
+  justify-items: center;
+  align-items: start;
+}
+
+.catalog-item {
+  width: 80px;
+  height: 80px;
+  background: #23272a;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid #7289da;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  appearance: none;
+  background-repeat: no-repeat;
+}
+
+.catalog-item:hover:not(:active) {
+  transform: scale(1.1);
+}
+
+.catalog-item:active {
+  transform: scale(0.85);
+  transition: transform 0.1s ease;
+}
+
+#itemCatalog:hover {
+  transform: translateX(-20%);
+  z-index: 3;
+  transition: transform 0.3s ease, z-index 0s;
+}
+
+#itemPlaygroundWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 2;
+}
+
+#catalogWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 30px;
+  z-index: 5;
+}
+
+#lootboxArea {
+  background: url('assets/pastelPattern.gif');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  text-align: center;
+  width: 60%;
+  height: 70vh;
+  font-family: monospace;
+  overflow: scroll;
+}
+
+#terminal {
+  background: black;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  text-align: left;
+  color: rgb(8, 214, 8);
+  width: 60%;
+  height: 70vh;
+  font-family: monospace;
+  overflow-y: scroll;
   display: flex;
+  flex-direction: column;
 }
 
-#topElements {
-  width: 70%;
-  height: 50%;
-  background-color: #947BEC;
-  border: 6.5px solid #1A5495;
-  margin-right: 1%;
+#output {
+  flex-grow: 1;
+  font-family: monospace;
+  white-space: pre-wrap;
 }
 
-#sideBar {
-  width: 25%;
-  height: 50%;
-  background-color: #947BEC;
-  border: 6.5px solid #1A5495;
+#inputLine {
+  width: 100%;
+  background: black;
+  color: rgb(8, 214, 8);
+  border: none;
+  outline: none;
+  font-family: monospace;
+  font-size: 16px;
+  margin-top: 10px;
+  overflow-x: hidden;
+  border: 4px solid #181818;
+}
+#virtualDesktop {
+  background: url('assets/stallfallWhite.gif');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  text-align: center;
+  width: 60%;
+  height: 70vh;
+  font-family: monospace;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 80px);
+  grid-auto-rows: 100px;
+  gap: 20px;
+  padding: 1%;
+  position: relative;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  overflow-y: scroll;
 }
 
-.textStyle {
-  font-family: 'Orbitron', sans-serif;
-  color: aqua;
+#paintArea {
+  background: url('assets/windows95.jpg');
+  width: 60%;
+  height: 70vh;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  padding: 1%;
+}
+
+#paintArea iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.icon {
+  width: 80px;
+  text-align: center;
+  cursor: pointer;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  transition: transform 0.3s ease;
+}
+
+.icon > div {
+  width: 100%;
+  margin-top: 5px;
+  font-size: clamp(10px, 1.5vw, 14px);
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  display: block;
+  text-align: center;
+}
+
+.icon img {
+  width: 48px;
+  height: 48px;
+}
+
+.icon:hover {
+  transform: scale(1.1);
+}
+
+.window {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  width: 400px;
+  height: 300px;
+  background: #181818;
+  border: 2px solid #7289da;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.window-header {
+  background: #7289da;
+  color: white;
+  padding: 8px 12px;
+  cursor: move;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+}
+
+.window-body {
+  flex: 1;
+  background: #23272a;
+  padding: 10px;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  overflow: auto;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#sidebar {
+  position: fixed;
+  right: 0;
+  width: 7%;
+  max-width: 125px;
+  min-width: 80px;
+  min-height: 70vh;
+  height: 95vh;
+  background: url('assets/bubbleStars.gif');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  color: white;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  overflow-y: auto;
+  padding: 0 0;
+  gap: 1%;
+  transform: none;
+}
+
+#eventBar {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(#000000, #000000);
+  margin-top: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 10%;
+  max-width: 500px;
+  min-width: 100px;
+  padding: 5px 10px 10px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 2;
+  transform: none;
+}
+
+#eventBar text {
+  fill: white;
+  font-size: 30px;
+  font-family: "Poppins", sans-serif;
+}
+
+.backgroundItem {
+  position: relative;
+  font-size: 40px;
+  animation: shrinkPop 3s linear forwards;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+  transform-origin: center;
+}
+
+@keyframes shrinkPop {
+  0%   { transform: scale(0); opacity: 0; }
+  30%  { transform: scale(1.2); opacity: 0.5; }
+  60%  { transform: scale(1); opacity: 0.2; }
+  100% { transform: scale(0); opacity: 0; }
+}
+
+.emoji-inline {
+  height: 1em;
+  width: 1em;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+#oneko {
+  width: 32px;
+  height: 32px;
+  position: fixed;
+  z-index: 9999;
+  user-select: none;
+  image-rendering: pixelated;
+  left: 0;
+  top: 0;
+  background-repeat: no-repeat;
+}
+
+#lootboxArea h2 {
+  margin-top: 20px;
+  color: white;
+  font-size: 24px;
+}
+
+#rollContainer {
+  overflow: hidden;
+  height: 100px;
+  background: #23272a;
+  border: 2px solid #7289da;
+  border-radius: 5px;
+  margin: 20px 0;
+  position: relative;
+}
+
+#itemStrip {
+  display: flex;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  transition: left 4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.item {
+  width: 100px;
+  height: 100px;
+  background: grey;
+  margin: 0 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border-radius: 5px;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: white;
+  text-align: center;
+}
+
+#inventory {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+#openCrate {
+  padding: 10px 20px;
+  background: #7289da;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#openCrate:hover {
+  background: #5b6fa9;
 }
