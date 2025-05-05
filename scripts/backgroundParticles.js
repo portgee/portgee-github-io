@@ -13,6 +13,8 @@ function createEmojiImg(name, url) {
 }
 
 async function spawnItem() {
+  if (toggleValBackground === false) {return;}
+
   const map = await loadEmojiMap();
   const itemVal = characters[Math.floor(Math.random() * characters.length)];
   const isCustomEmoji = /^:([a-zA-Z0-9_]+):$/.test(itemVal);
@@ -20,7 +22,8 @@ async function spawnItem() {
     ? createEmojiImg(itemVal.slice(1, -1), map[itemVal.slice(1, -1)])
     : document.createElement('div');
 
-item.className = 'backgroundItem';
+
+  item.className = 'backgroundItem';
   if (!isCustomEmoji) {
     item.textContent = itemVal;
     item.style.fontSize = (Math.random() * 40 + 25) + 'px';
@@ -37,3 +40,4 @@ item.className = 'backgroundItem';
 }
 
 setInterval(spawnItem, 50);
+

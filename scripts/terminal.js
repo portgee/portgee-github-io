@@ -154,7 +154,7 @@ commands['date'] = () => {
 };
 
 commands['about'] = () => {
-  print('Ultimate Terminal 4.0 - Modular!');
+  print('Terminal made by Portgee :3');
 };
 
 commands['list-commands'] = () => {
@@ -859,75 +859,94 @@ effects['ghost'] = () => {
 };
 
 games['invaders'] = () => {
-    const width = 20;
-    const height = 10;
-    let aliens = [];
-    let player = Math.floor(width / 2);
-    let interval;
-    let score = 0;
-  
-    function draw() {
-      output.innerHTML = '';
-      print('Score: ' + score);
-      for (let y = 0; y < height; y++) {
-        let line = '';
-        for (let x = 0; x < width; x++) {
-          if (aliens.some(a => a.x === x && a.y === y)) {
-            line += '👾';
-          } else if (y === height - 1 && x === player) {
-            line += 'A ';
-          } else {
-            line += '. ';
-          }
+  const width = 20;
+  const height = 29;
+  let aliens = [];
+  let player = Math.floor(width / 2);
+  let interval;
+  let spawnRate = 5;
+  let moveSpeed = 500;
+  let score = 0;
+  let level = 1;
+
+  function draw() {
+    output.innerHTML = '';
+    print('Score: ' + score + ' | Level: ' + level);
+    for (let y = 0; y < height; y++) {
+      let line = '';
+      for (let x = 0; x < width; x++) {
+        if (aliens.some(a => a.x === x && a.y === y)) {
+          line += '👾';
+        } else if (y === height - 1 && x === player) {
+          line += 'A ';
+        } else {
+          line += '. ';
         }
-        print(line);
+      }
+      print(line);
+    }
+  }
+
+  function moveAliens() {
+    for (let a of aliens) a.y++;
+    if (aliens.some(a => a.y >= height - 1)) {
+      clearInterval(interval);
+      document.removeEventListener('keydown', invaderControl);
+      print('Game Over. Aliens invaded.');
+      gameActive = false;
+      return;
+    }
+  }
+
+  function invaderControl(e) {
+    if (e.key.toLowerCase() === 'a' && player > 0) player--;
+    if (e.key.toLowerCase() === 'd' && player < width - 1) player++;
+    if (e.key === ' ') {
+      const beforeKill = aliens.length;
+      aliens = aliens.filter(a => !(a.x === player && a.y <= height));
+      const afterKill = aliens.length;
+      const kills = beforeKill - afterKill;
+      if (kills > 0) {
+        score += kills * 10;
+        if (score % 50 === 0) {
+          level++;
+          if (moveSpeed > 100) moveSpeed -= 50;
+          spawnRate++;
+          clearInterval(interval);
+          interval = setInterval(gameLoop, moveSpeed);
+        }
       }
     }
-  
-    function moveAliens() {
-      for (let a of aliens) a.y++;
-      if (aliens.some(a => a.y >= height - 1)) {
-        clearInterval(interval);
-        document.removeEventListener('keydown', invaderControl);
-        print('Game Over. Aliens invaded.');
-        gameActive = false;
-        return;
-      }
-    }
-  
-    function invaderControl(e) {
-      if (e.key.toLowerCase() === 'a' && player > 0) player--;
-      if (e.key.toLowerCase() === 'd' && player < width - 1) player++;
-      if (e.key.toLowerCase() === ' ') {
-        const beforeKill = aliens.length;
-        aliens = aliens.filter(a => !(a.x === player && a.y <= height));
-        const afterKill = aliens.length;
-        score += (beforeKill - afterKill) * 10;
-      }
-      draw();
-    }
-  
-    function spawnAliens() {
-      for (let i = 0; i < 5; i++) {
-        aliens.push({ x: Math.floor(Math.random() * width), y: 0 });
-      }
-    }
-  
-    gameActive = true;
-    aliens = [];
-    player = Math.floor(width / 2);
-    score = 0;
-    spawnAliens();
     draw();
-    interval = setInterval(() => {
-      moveAliens();
-      if (aliens.length === 0) {
-        spawnAliens();
-      }
-      draw();
-    }, 500);
-    document.addEventListener('keydown', invaderControl);
-};  
+  }
+
+  function spawnAliens() {
+    for (let i = 0; i < spawnRate; i++) {
+      aliens.push({ x: Math.floor(Math.random() * width), y: 0 });
+    }
+  }
+
+  function gameLoop() {
+    moveAliens();
+    if (aliens.length === 0) {
+      spawnAliens();
+    }
+    draw();
+  }
+
+  gameActive = true;
+  aliens = [];
+  player = Math.floor(width / 2);
+  score = 0;
+  level = 1;
+  spawnRate = 5;
+  moveSpeed = 500;
+  spawnAliens();
+  draw();
+  interval = setInterval(gameLoop, moveSpeed);
+  document.addEventListener('keydown', invaderControl);
+};
+
   
 games['breakout'] = () => {
     const width = 20;
@@ -1017,11 +1036,20 @@ games['breakout'] = () => {
     document.addEventListener('keydown', breakoutControl);
 };
 
+let guessList = [];
 let wordList = [];
 
 async function fetchWords() {
   try {
-    const response = await fetch('wordle.txt');
+    const response = await fetch('files/wordle.txt');
+    const text = await response.text();
+    guessList = text.split('\n').map(w => w.trim().toLowerCase()).filter(w => w.length === 5);
+  } catch (e) {
+    print('Failed to load guess list.');
+  }
+
+  try {
+    const response = await fetch('files/wordleReal.txt');
     const text = await response.text();
     wordList = text.split('\n').map(w => w.trim().toLowerCase()).filter(w => w.length === 5);
   } catch (e) {
@@ -1030,81 +1058,81 @@ async function fetchWords() {
 }
 
 games['wordle'] = () => {
-    let targetWord = '';
-    let maxGuesses = 6;
-    let guesses = 0;
-  
-    async function startGame() {
-      if (wordList.length === 0) {
-        await fetchWords();
-      }
-      targetWord = wordList[Math.floor(Math.random() * wordList.length)].toLowerCase();
-      print('Wordle started! Guess the 5-letter word.');
-      print(`You have ${maxGuesses} attempts.`);
-      gameActive = true;
-      currentGame = handleGuess;
+  let targetWord = '';
+  let maxGuesses = 6;
+  let guesses = 0;
+
+  async function startGame() {
+    if (wordList.length === 0 || guessList.length === 0) {
+      await fetchWords();
     }
-  
-    function handleGuess(input) {
-      const guess = input.trim().toLowerCase();
-      if (guess.length !== 5) {
-        print('Please enter a 5-letter word.');
-        return;
-      }
-      if (!wordList.includes(guess)) {
-        print('Word not in list. Try another word.');
-        return;
-      }
-      guesses++;
-  
-      const feedback = Array(5).fill('');
-      const targetArr = targetWord.split('');
-      const guessArr = guess.split('');
-  
-      for (let i = 0; i < 5; i++) {
-        if (guessArr[i] === targetArr[i]) {
-          feedback[i] = `[${guessArr[i].toUpperCase()}]`;
-          targetArr[i] = null;
-          guessArr[i] = null;
-        }
-      }
-      for (let i = 0; i < 5; i++) {
-        if (guessArr[i] !== null) {
-          const idx = targetArr.indexOf(guessArr[i]);
-          if (idx !== -1) {
-            feedback[i] = `(${guessArr[i]})`;
-            targetArr[idx] = null;
-          } else {
-            feedback[i] = ` ${guess[i]} `;
-          }
-        }
-      }
-      print(feedback.join(''));
-  
-      if (guess === targetWord) {
-        print('🎉 Correct! You win!');
-        gameActive = false;
-        currentGame = null;
-      } else if (guesses >= maxGuesses) {
-        print(`💀 Out of guesses. The word was: ${targetWord.toUpperCase()}`);
-        gameActive = false;
-        currentGame = null;
-      } else {
-        print(`${maxGuesses - guesses} guesses left.`);
+    targetWord = wordList[Math.floor(Math.random() * wordList.length)].toLowerCase();
+    print('Wordle started! Guess the 5-letter word.');
+    print(`You have ${maxGuesses} attempts.`);
+    gameActive = true;
+    currentGame = handleGuess;
+  }
+
+  function handleGuess(input) {
+    const guess = input.trim().toLowerCase();
+    if (guess.length !== 5) {
+      print('Please enter a 5-letter word.');
+      return;
+    }
+    if (!guessList.includes(guess)) {
+      print('Word not in guess list. Try another word.');
+      return;
+    }
+    guesses++;
+
+    const feedback = Array(5).fill('');
+    const targetArr = targetWord.split('');
+    const guessArr = guess.split('');
+
+    for (let i = 0; i < 5; i++) {
+      if (guessArr[i] === targetArr[i]) {
+        feedback[i] = `[${guessArr[i].toUpperCase()}]`;
+        targetArr[i] = null;
+        guessArr[i] = null;
       }
     }
-  
-    startGame();
+    for (let i = 0; i < 5; i++) {
+      if (guessArr[i] !== null) {
+        const idx = targetArr.indexOf(guessArr[i]);
+        if (idx !== -1) {
+          feedback[i] = `(${guessArr[i]})`;
+          targetArr[idx] = null;
+        } else {
+          feedback[i] = ` ${guess[i]} `;
+        }
+      }
+    }
+    print(feedback.join(''));
+
+    if (guess === targetWord) {
+      print('🎉 Correct! You win!');
+      gameActive = false;
+      currentGame = null;
+    } else if (guesses >= maxGuesses) {
+      print(`💀 Out of guesses. The word was: ${targetWord.toUpperCase()}`);
+      gameActive = false;
+      currentGame = null;
+    } else {
+      print(`${maxGuesses - guesses} guesses left.`);
+    }
+  }
+
+  startGame();
 };
   
 games['typingrace'] = () => {
 async function startRace() {
-    if (wordList.length === 0) {
+    if (guessList.length === 0) {
     await fetchWords();
     }
     const sequence = [];
     for (let i = 0; i < 5; i++) {
-    sequence.push(wordList[Math.floor(Math.random() * wordList.length)]);
+    sequence.push(guessList[Math.floor(Math.random() * guessList.length)]);
     }
 
     print('Type these words quickly:');

@@ -159,6 +159,8 @@ function triggerEvent(eventName) {
 }
 
 function setEvent(eventName) {
+  if (weatherMode === false) {return;}
+
   const display = document.getElementById('eventBarText');
   if (display) {
     display.textContent = eventName === 'none' ? 'Event: None' : 'Event: ' + capitalize(eventName);

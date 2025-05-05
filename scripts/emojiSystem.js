@@ -2,7 +2,7 @@ let emojiMap = null;
 
 async function loadEmojiMap() {
   if (emojiMap) return emojiMap;
-  const res = await fetch('emojiMap.json');
+  const res = await fetch('files/emojiMap.json');
   emojiMap = await res.json();
   return emojiMap;
 }

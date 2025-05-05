@@ -34,6 +34,8 @@
         <button class="mainButton" onclick="scrollToSection('terminal')">:developer: Terminal</button>
         <button class="mainButton" onclick="addItem()">:animalLickingCinnamonroll: Upload Item</button>
         <input type="file" id="fileInput" style="display:none" accept="image/*" onchange="handleFileUpload(event)">
+        <button class="mainButton" onclick="toggleWeatherSetting()">🌧️ Weather</button>
+        <button class="mainButton" onclick="toggleBackgroundSetting()">✨ Background Particles</button>
       </div>
       <div id="mainContent">
         <div class="mainGui" id="middleGui">
@@ -135,17 +137,18 @@
         </div>      
       </div>  
   </div>
-  <script src="main.js"></script>
-  <script src="backgroundParticles.js"></script>
-  <script src="emojiSystem.js"></script>
-  <script src="theme.js"></script>
-  <script src="gradientText.js"></script>
-  <script src="itemPlayground.js"></script>
-  <script src="lootbox.js"></script>
-  <script src="virtualDesktop.js"></script>
-  <script src="terminal.js"></script>
-  <script src="particles.js" defer></script>
-  <script src="virtualPet.js" defer></script>
+  <script src="scripts/cookieManager.js"></script>
+  <script src="scripts/main.js"></script>
+  <script src="scripts/backgroundParticles.js"></script>
+  <script src="scripts/emojiSystem.js"></script>
+  <script src="scripts/theme.js"></script>
+  <script src="scripts/gradientText.js"></script>
+  <script src="scripts/itemPlayground.js"></script>
+  <script src="scripts/lootbox.js"></script>
+  <script src="scripts/virtualDesktop.js"></script>
+  <script src="scripts/terminal.js"></script>
+  <script src="scripts/particles.js" defer></script>
+  <script src="scripts/virtualPet.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 </body>
 </html>

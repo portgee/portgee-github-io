@@ -45,12 +45,15 @@ const rarityColors = {
 
 let inventory = {}
 let busy = false
+let lastWinningIndex = null
+let lastItemWidth = null
+
 
 function createLootboxUI() {
   lootboxArea.innerHTML = `
     <div style="background:linear-gradient(to bottom,#ffe4f7,#ffe1f2);padding:20px;border-radius:20px;max-width:800px;margin:20px auto;box-shadow:0 0 20px #ff69b4;">
-      <h2 style="font-family:Comic Sans MS, cursive;text-align:center;color:#ff69b4;">Femboy Lootbox</h2>
-      <div id="rollContainer" style="overflow:hidden;height:120px;width:720px;background:white;border:3px solid #ff69b4;border-radius:15px;margin:20px auto;position:relative;">
+      <h1 style="font-family:Comic Sans MS, cursive;text-align:center;color:#ff69b4;">Femboy Lootbox</h1>
+      <div id="rollContainer" style="overflow:hidden;height:100px;width:90%;background:white;border:3px solid #ff69b4;border-radius:15px;margin:20px auto;position:relative;">
         <div id="itemStrip" style="display:flex;position:absolute;left:0;top:0;height:100%;transition:left 4s cubic-bezier(0.25, 1, 0.5, 1);"></div>
       </div>
       <div style="text-align:center;margin-top:15px;">
@@ -84,14 +87,16 @@ function openCrate() {
   strip.innerHTML = ''
   strip.style.transition = 'none'
   strip.style.left = '0px'
-  const itemWidth = 106
-  const visibleItems = 6
+
+  const rollContainer = document.getElementById('rollContainer')
   const extraBefore = 20
   const extraAfter = 10
   const rollItems = []
+
   for (let i = 0; i < extraBefore; i++) {
     rollItems.push(items[Math.floor(Math.random() * items.length)])
   }
+
   const winningItem = getRandomItem()
   if (!winningItem) {
     busy = false
@@ -99,10 +104,12 @@ function openCrate() {
     openButton.style.opacity = 1
     return
   }
+
   rollItems.push(winningItem)
   for (let i = 0; i < extraAfter; i++) {
     rollItems.push(items[Math.floor(Math.random() * items.length)])
   }
+
   for (const it of rollItems) {
     const div = document.createElement('div')
     div.style.background = rarityColors[it.rarity] || '#ccc'
@@ -113,27 +120,45 @@ function openCrate() {
     div.style.display = 'flex'
     div.style.alignItems = 'center'
     div.style.justifyContent = 'center'
+    div.style.lineHeight = '0'
     const img = document.createElement('img')
     img.src = 'assets/lootbox/' + it.img
     img.style.width = '80px'
     img.style.height = '80px'
     img.style.borderRadius = '10px'
+    img.style.display = 'block'
     div.appendChild(img)
     strip.appendChild(div)
-  }
+  }  
+
   setTimeout(() => {
-    strip.style.transition = 'left 4s cubic-bezier(0.25, 1, 0.5, 1)'
+    const stripChildren = strip.children
+    if (!stripChildren.length) return
+
+    const itemElem = stripChildren[0]
+    const itemWidth = itemElem.offsetWidth + 6
+    lastItemWidth = itemWidth
+
+    const spinDuration = 3.5 + Math.random() * 1.5
+    strip.style.transition = `left ${spinDuration}s cubic-bezier(0.25, 1, 0.5, 1)`
+
     const winningIndex = extraBefore
-    const finalIndex = winningIndex - Math.floor(visibleItems / 2)
-    strip.style.left = `-${finalIndex * itemWidth}px`
+    lastWinningIndex = winningIndex
+
+    const centerOffset = (rollContainer.offsetWidth / 2) - (itemWidth / 2)
+    const finalLeft = (winningIndex * itemWidth - centerOffset) * -1
+
+    strip.style.left = `${finalLeft}px`
+
+    setTimeout(() => {
+      addToInventory(winningItem)
+      busy = false
+      openButton.disabled = false
+      openButton.style.opacity = 1
+    }, spinDuration * 1000)
   }, 50)
-  setTimeout(() => {
-    addToInventory(winningItem)
-    busy = false
-    openButton.disabled = false
-    openButton.style.opacity = 1
-  }, 4000)
 }
+
 
 function addToInventory(item) {
   if (!item || !item.name) return
@@ -185,6 +210,7 @@ function updateInventory() {
     img.style.width = '60px'
     img.style.height = '60px'
     img.style.borderRadius = '12px'
+    img.style.display = 'block'
     const amount = document.createElement('div')
     amount.innerText = 'x' + entry.amount
     amount.style.fontSize = '14px'
@@ -196,21 +222,29 @@ function updateInventory() {
 }
 
 function saveInventory() {
-  document.cookie = 'inventory=' + encodeURIComponent(JSON.stringify(inventory)) + '; path=/; max-age=31536000'
+  CookieManager.set('inventory', JSON.stringify(inventory), { path: '/', expires: 31536000 });
 }
 
 function loadInventory() {
-  const cookies = document.cookie.split('; ')
-  const inventoryCookie = cookies.find(row => row.startsWith('inventory='))
-  if (inventoryCookie) {
-    const data = decodeURIComponent(inventoryCookie.split('=')[1])
+  const data = CookieManager.get('inventory');
+  if (data) {
     try {
-      const parsed = JSON.parse(data)
-      if (typeof parsed === 'object' && parsed !== null) inventory = parsed
+      const parsed = JSON.parse(data);
+      if (typeof parsed === 'object' && parsed !== null) inventory = parsed;
     } catch {}
-    updateInventory()
+    updateInventory();
   }
 }
 
 createLootboxUI()
 loadInventory()
+
+window.addEventListener('resize', () => {
+  if (lastWinningIndex === null || lastItemWidth === null) return
+  const strip = document.getElementById('itemStrip')
+  const rollContainer = document.getElementById('rollContainer')
+  const centerOffset = (rollContainer.offsetWidth / 2) - (lastItemWidth / 2)
+  const finalLeft = (lastWinningIndex * lastItemWidth - centerOffset) * -1
+  strip.style.transition = 'none'
+  strip.style.left = `${finalLeft}px`
+})
