@@ -3,8 +3,8 @@ let notificationShowing = false;
 
 const SettingsManager = {
   defaults: {
-    toggleValBackground: 1,
-    weatherMode: 1
+    toggleValBackground: true,
+    weatherMode: true
   },
   settings: {},
   listeners: {},
