@@ -24,6 +24,8 @@ function print(text) {
   terminal.scrollTop = terminal.scrollHeight;
 }
 
+print("Welcome to terminal. Type help for a list of commands.")
+
 inputLine.addEventListener('keydown', function(event) {
   if (event.key === 'Enter') {
     const command = inputLine.value.trim();
@@ -1123,6 +1125,6 @@ async function startRace() {
     };
 }
 
+
 startRace();
 };
-  
