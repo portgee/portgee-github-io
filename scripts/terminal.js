@@ -1156,3 +1156,46 @@ async function startRace() {
 
 startRace();
 };
+
+commands['owoify'] = (input) => {
+  const suffixes = ['UwU', ':3', 'x3', 'meow', '^_^', '>_<', 'rawr', '~', 'nyaa~', '>w<', '(*^.^*)'];
+  const faces = ['(・`ω´・)', ';;w;;', 'owo', 'UwU', '>w<', '^w^', '(* ^ ω ^)', '(⌒ω⌒)', 'ヽ(*・ω・)ﾉ', '(o´∀`o)', '(o･ω･o)', '＼(＾▽＾)／'];
+  const random = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  const transformations = [
+    (text) => text.replace(/(?:r|l)/g, 'w').replace(/(?:R|L)/g, 'W'),
+    (text) => text.replace(/\bno\b/gi, (m) => m[0] === 'N' ? (m === 'NO' ? 'NU' : 'Nu') : 'nu'),
+    (text) => text.replace(/\bhave\b/gi, (m) => m[0] === 'H' ? (m === 'HAVE' ? 'HAZ' : 'Haz') : 'haz'),
+    (text) => text.replace(/\bhas\b/gi, (m) => m[0] === 'H' ? (m === 'HAS' ? 'HAZ' : 'Haz') : 'haz'),
+    (text) => text.replace(/\byou\b/gi, (m) => m[0] === 'Y' ? (m === 'YOU' ? 'UU' : 'Uu') : 'uu'),
+    (text) => text.replace(/\bthe\b/gi, (m) => m[0] === 'T' ? (m === 'THE' ? 'DA' : 'Da') : 'da'),
+    (text) => text.replace(/n([aeiou])/gi, 'ny$1'),
+    (text) => text.replace(/ove/g, 'uv').replace(/OVE/g, 'UV'),
+    (text) => text.replace(/ew/g, 'uwu'),
+    (text) => text.replace(/\bdead\b/gi, (m) => m[0] === 'D' ? 'Ded' : 'ded'),
+    (text) => text.replace(/\blove\b/gi, (m) => m[0] === 'L' ? (m === 'LOVE' ? 'WUV' : 'Wuv') : 'wuv'),
+    (text) => text.replace(/\bsmall\b/gi, (m) => m[0] === 'S' ? (m === 'SMALL' ? 'SMOL' : 'Smol') : 'smol'),
+    (text) => text.replace(/\bcute\b/gi, (m) => m[0] === 'C' ? 'Kawaii~' : 'kawaii~'),
+    (text) => text.replace(/\bfriends?\b/gi, (m) => m[0] === 'F' ? (m[1] === 'r' ? 'fwiend' : 'Fwiend') : 'fwiend'),
+    (text) => text.replace(/\bstop\b/gi, (m) => m[0] === 'S' ? 'Stawp' : 'stawp'),
+    (text) => text.replace(/\bwhat\b/gi, (m) => m[0] === 'W' ? 'Wut' : 'wut'),
+    (text) => text.replace(/\bme\b/gi, (m) => m[0] === 'M' ? 'Mew' : 'mew'),
+    (text) => text.replace(/\bgood\b/gi, (m) => m[0] === 'G' ? 'Gud' : 'gud'),
+    (text) => text.replace(/\bboy\b/gi, (m) => m[0] === 'B' ? 'Boi' : 'boi'),
+    (text) => text.replace(/\bgirl\b/gi, (m) => m[0] === 'G' ? 'Grill' : 'grill'),
+    (text) => text.replace(/[({<]/g, '｡･:*:･ﾟ★,｡･:*:･ﾟ☆').replace(/[)}>]/g, '☆ﾟ･:*:･｡,★ﾟ･:*:･｡'),
+    (text) => text.replace(/[.,](?![0-9])/g, () => ' ' + random(faces)).replace(/[!;]+/g, () => ' ' + random(faces))
+  ];
+  const stutter = (text) => text.replace(/\b\w/g, (c) => Math.random() < 0.1 ? `${c}-${c}` : c);
+  const owoify = (text) => {
+    let result = text;
+    transformations.forEach(fn => result = fn(result));
+    result = stutter(result);
+    return result;
+  };
+  const output = owoify(input) + ' ' + random(suffixes);
+  print(output);
+};
+
+commands['brick'] = (input) => {
+  
+};

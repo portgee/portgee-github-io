@@ -13,6 +13,17 @@
       <img src="assets/moon.png" alt="Moon" class="moon hidden" onclick="toggleTheme()"/>
     </div>
 
+    <div id="nowPlaying">
+      <div id="vinylWrapper">
+        <div id="vinyl">
+          <div class="thumbMask">
+            <img id="coverArt" src="" alt="" />
+          </div>
+        </div>
+        <div id="trackInfo">Now Playing: Rolling Girl - wowaka</div>
+      </div>
+    </div>
+    
     <div id="eventBar" class="mainGui">
       <p id="eventBarText" class="animatedText"
       data-colors="#ff7e5f,#feb47b,#86a8e7,#91eae4,#ff7e5f"
@@ -23,7 +34,6 @@
       Event: None
       </p>
     </div>
-
     <div id="container">
       <div class="mainGui" id="sidebar">
         <button class="mainButton" onclick="scrollToSection('middleGui')">:blahajSpin: Homepage</button>
@@ -32,6 +42,7 @@
         <button class="mainButton" onclick="scrollToSection('paintArea')">🎨 Paint</button>
         <button class="mainButton" onclick="scrollToSection('virtualDesktop')">🖥️ Virtual Desktop</button>
         <button class="mainButton" onclick="scrollToSection('terminal')">:developer: Terminal</button>
+        <button class="mainButton" onclick="scrollToSection('youtubeDiv')">🎵 Music</button>
         <button class="mainButton" onclick="addItem()">:animalLickingCinnamonroll: Upload Item</button>
         <input type="file" id="fileInput" style="display:none" accept="image/*" onchange="handleFileUpload(event)">
         <button class="mainButton" onclick="toggleWeatherSetting()">🌧️ Weather</button>
@@ -129,14 +140,32 @@
 
 
         <div class="mainGui" id="lootboxArea"></div>
-        <div class="mainGui" id="paintArea"><iframe src="jspaint/index.html"></iframe></div>
+        <div class="mainGui" id="paintArea"><iframe id="paintApp" src="jspaint/index.html" sandbox="allow-scripts allow-same-origin"></iframe></div>
         <div class="mainGui" id="virtualDesktop"></div>
         <div class="mainGui" id="terminal">
           <div id="output"></div>
           <input type="text" id="inputLine">
-        </div>      
-      </div>  
+        </div>
+        <div class="mainGui" id="ytVisualContainer">
+          <canvas id="waveCanvas"></canvas>
+          <div id="youtubeDiv">
+            <div id="player"></div>
+            <div class="yt-controls">
+              <button id="playPause" class="yt-btn">▶️</button>
+              <div class="progress-container">
+                <input type="range" id="progressBar" value="0" min="0" max="100">
+                <div id="previewTime">00:00</div> 
+              </div>
+              <input type="range" id="volumeSlider" min="0" max="100" value="50">
+            </div>
+          </div>
+        </div>        
+        <script src="https://www.youtube.com/iframe_api"></script>        
+    </div>  
   </div>
+  
+  <div id="hiddenBrick"></div>  
+
   <script src="scripts/cookieManager.js"></script>
   <script src="scripts/main.js"></script>
   <script src="scripts/backgroundParticles.js"></script>
@@ -145,10 +174,12 @@
   <script src="scripts/gradientText.js"></script>
   <script src="scripts/itemPlayground.js"></script>
   <script src="scripts/lootbox.js"></script>
+  <script src="scripts/youtubePlayer.js"></script>
   <script src="scripts/virtualDesktop.js"></script>
   <script src="scripts/terminal.js"></script>
   <script src="scripts/particles.js" defer></script>
   <script src="scripts/virtualPet.js" defer></script>
+  <script src="scripts/brick.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 </body>
 </html>
