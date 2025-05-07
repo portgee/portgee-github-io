@@ -447,6 +447,42 @@ body {
   transition: left 4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
+#hiddenBrick {
+  width: 100px;
+  height: 60px;
+  background: url('assets/brick.png') no-repeat center/cover;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+  position: relative;
+  left: 85vw;
+  bottom: 30px;
+}
+
+#hiddenBrick:hover {
+  opacity: 1;
+}
+
+#brickWall {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url('https://i.imgur.com/.png') repeat;
+  background-size: 100px;
+  z-index: 9999;
+  overflow: auto;
+}
+
+#brickWallText {
+  padding: 30px;
+  font-size: 1.5rem;
+  color: white;
+  font-family: monospace;
+}
+
 .item {
   width: 100px;
   height: 100px;
@@ -766,40 +802,4 @@ input[type="range"]#volumeSlider::-webkit-slider-thumb {
   #vinyl {
     display: none;
   }
-}
-
-#hiddenBrick {
-  width: 100px;
-  height: 60px;
-  background: url('assets/brick.png') no-repeat center/cover;
-  cursor: pointer;
-  opacity: 0.7;
-  transition: opacity 0.3s;
-  position: relative;
-  left: 85vw;
-  bottom: 30px;
-}
-
-#hiddenBrick:hover {
-  opacity: 1;
-}
-
-#brickWall {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: url('https://i.imgur.com/.png') repeat;
-  background-size: 100px;
-  z-index: 9999;
-  overflow: auto;
-}
-
-#brickWallText {
-  padding: 30px;
-  font-size: 1.5rem;
-  color: white;
-  font-family: monospace;
 }
