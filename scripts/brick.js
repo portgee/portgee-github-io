@@ -50,7 +50,7 @@ function brickClicked() {
     const dialogue = [
         { text: '...', options: ['Hello? Can you hear me?', 'What a nice wall you are.', 'Am I losing my mind?'] },
         { text: '...', options: ['Maybe if I knock...', 'I bet you\'re a secret door.', 'Is this wall judging me?'] },
-        { text: '...', options: ['Tell me your secrets, wall.', 'Blink if you\'re sentient.', 'Stay silent if you\'re guilty.'] },
+        { text: '...', options: ['Tell me your secrets wall.', 'Blink if you\'re sentient.', 'Stay silent if you\'re guilty.'] },
         { text: '...', options: ['I\'ll name you... Sir Bricksalot.', 'I\'m arguing with a wall. New low.', 'Are you even real?'] },
         { text: '...', options: ['Good talk.', 'You\'re better at listening than my friends.', 'This wall has better social skills than me.'] },
         { text: 'End of conversation.', options: [] }
