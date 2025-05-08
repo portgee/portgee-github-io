@@ -159,7 +159,33 @@
             </div>
           </div>
         </div>        
-        <script src="https://www.youtube.com/iframe_api"></script>        
+        <script src="https://www.youtube.com/iframe_api"></script>       
+        
+        <div class="mainGui" id="chatRoomArea">
+          <h1 class="animatedText"
+              data-colors="#00c8ff,#1472ff,#00ffd5,#00c8ff"
+              data-angle="270"
+              data-speed="8"
+              data-background-size="800% 800%"
+              data-easing="ease-in-out">
+              Public Chatroom
+          </h1>
+          
+          <div id="chatMessages" class="chat-messages"></div>
+      
+          <div id="chatInputArea" class="chat-input-area">
+            <div id="typingIndicator" class="typing-indicator"></div>
+              <input id="chatInput" type="text" class="chat-input" placeholder="Type your message...">
+              <button id="sendButton" class="mainButton chat-send-button">Send</button>
+          </div>
+      
+          <div id="loginArea" class="chat-login-area">
+              <input id="usernameInput" type="text" class="chat-login-input" placeholder="Username">
+              <input id="passwordInput" type="password" class="chat-login-input" placeholder="Password">
+              <input id="pfpInput" type="text" class="chat-login-input" placeholder="Profile Picture URL (optional)">
+              <button id="loginButton" class="mainButton chat-login-button">Login / Register</button>
+          </div>
+      </div>
     </div>  
   </div>
   <div id="hiddenBrick"></div>  
@@ -167,6 +193,7 @@
   <script src="scripts/main.js"></script>
   <script src="scripts/backgroundParticles.js"></script>
   <script src="scripts/emojiSystem.js"></script>
+  <script src="scripts/chatRoom.js"></script>
   <script src="scripts/theme.js"></script>
   <script src="scripts/gradientText.js"></script>
   <script src="scripts/itemPlayground.js"></script>
