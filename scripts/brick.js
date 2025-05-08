@@ -190,12 +190,16 @@ function brickClicked() {
         }
     }
 
-    typeText('Press any key to start talking...', () => {
-        window.addEventListener('keydown', function startConversation() {
+    typeText('Press anywhere to start talking...', () => {
+        function startConversation() {
             window.removeEventListener('keydown', startConversation)
+            window.removeEventListener('touchstart', startConversation)
             nextLine()
-        })
+        }
+        window.addEventListener('keydown', startConversation)
+        window.addEventListener('touchstart', startConversation)
     })
+    
 }
 
 document.getElementById('hiddenBrick').addEventListener('click', brickClicked)
