@@ -184,8 +184,7 @@ function showTyping(name) {
       typingIndicator.classList.remove('show')
       typingIndicator.innerText = ''
     }, 3000)
-  }
-  
+}
 
 function openProfileMenu() {
   document.getElementById('profileMenu').style.display = 'flex'

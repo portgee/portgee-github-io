@@ -21,7 +21,7 @@
             <img id="coverArt" src="" alt="" />
           </div>
         </div>
-        <div id="trackInfo">Now Playing: Rolling Girl - wowaka</div>
+        <div id="trackInfo">Now Playing: Unknown</div>
       </div>
     </div>
     
@@ -162,6 +162,7 @@
         <script src="https://www.youtube.com/iframe_api"></script>       
         
         <div class="mainGui" id="chatRoomArea">
+          <button id="profileButton">Profile</button>
           <h1 class="animatedText"
               data-colors="#00c8ff,#1472ff,#00ffd5,#00c8ff"
               data-angle="270"
@@ -184,6 +185,13 @@
               <input id="passwordInput" type="password" class="chat-login-input" placeholder="Password">
               <input id="pfpInput" type="text" class="chat-login-input" placeholder="Profile Picture URL (optional)">
               <button id="loginButton" class="mainButton chat-login-button">Login / Register</button>
+          </div>
+
+          <div id="profileMenu" style="display: none;">
+            <h2>Edit Profile</h2>
+            <input id="colorInput" type="color" value="#ffffff">
+            <input id="pfpEditInput" type="text" placeholder="Profile Picture URL">
+            <button id="saveProfileButton" class="mainButton">Save Profile</button>
           </div>
       </div>
     </div>  
