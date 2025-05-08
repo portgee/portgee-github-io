@@ -39,5 +39,5 @@ async function spawnItem() {
   setTimeout(() => item.remove(), 3000);
 }
 
-setInterval(spawnItem, 50);
+setInterval(spawnItem, 60);
 
