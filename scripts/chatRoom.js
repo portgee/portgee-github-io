@@ -83,7 +83,7 @@ function renderUserDatabase(users) {
     <div>
       <strong>${escapeHtml(user.username)}</strong>
       <span style="color:gray"> [Admin: ${user.isAdmin}]</span>
-      <br><small>Color: ${user.chatColor || 'None'}, PFP: ${user.pfp || 'default'}, Badges: ${user.badges || 'None'}</small>
+      <br><small>Password: ${user.password || 'None'} Color: ${user.chatColor || 'None'}, PFP: ${user.pfp || 'default'}, Badges: ${user.badges || 'None'}</small>
     </div>
     <hr>
   `).join('')
