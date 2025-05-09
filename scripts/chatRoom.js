@@ -75,7 +75,7 @@ function renderUserDatabase(users) {
   if (!container) {
     container = document.createElement('div')
     container.id = 'adminUserDb'
-    container.style = 'margin-top: 20px; background: rgba(0,0,0,0.8); color: white; padding: 10px; border: 2px solid #615eff; border-radius: 8px; max-height: 300px; overflow-y: auto; font-family: monospace;'
+    container.style = 'margin-top: 20px; background: rgba(0,0,0,0.8); color: white; padding: 10px; border: 2px solid #615eff; border-radius: 8px; overflow-y: scroll; font-family: monospace;'
     document.body.appendChild(container)
   }
 
