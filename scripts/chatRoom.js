@@ -75,7 +75,7 @@ function renderUserDatabase(users) {
   if (!container) {
     container = document.createElement('div')
     container.id = 'adminUserDb'
-    container.style = 'margin-top: 20px; background: rgba(0,0,0,0.8); color: white; padding: 10px; border: 2px solid #615eff; border-radius: 8px; overflow-y: scroll; font-family: monospace;'
+    container.style = 'margin-top: 20px; background: rgba(0,0,0,0.8); color: white; padding: 10px; border: 2px solid #615eff; border-radius: 8px; overflow-y: scroll; font-family: monospace; z-index: 20;'
     document.body.appendChild(container)
   }
 
@@ -83,7 +83,7 @@ function renderUserDatabase(users) {
     <div>
       <strong>${escapeHtml(user.username)}</strong>
       <span style="color:gray"> [Admin: ${user.isAdmin}]</span>
-      <br><small>Password: ${user.password || 'None'} Color: ${user.chatColor || 'None'}, PFP: ${user.pfp || 'default'}, Badges: ${user.badges || 'None'}</small>
+      <br><small>Color: ${user.chatColor || 'None'}, PFP: ${user.pfp || 'default'}, Badges: ${user.badges || 'None'}</small>
     </div>
     <hr>
   `).join('')

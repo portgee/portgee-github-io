@@ -315,8 +315,8 @@ body {
 }
 
 #vinyl {
-  width: 150px;
-  height: 150px;
+  width: 125px;
+  height: 125px;
   border-radius: 50%;
   background: radial-gradient(circle at center, #222 40%, #000 95%);
   border: 2px solid #444;
