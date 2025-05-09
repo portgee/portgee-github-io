@@ -20,9 +20,21 @@ socket.addEventListener('open', () => {
   }
 })
 
+function requestUserDatabase() {
+  if (window.isAdminUser) {
+    socket.send(JSON.stringify({ type: 'getUserDatabase' }))
+  }
+}
+
 socket.addEventListener('message', (event) => {
   if (DEBUG) console.log('Received message from server:', event.data)
   const data = JSON.parse(event.data)
+
+  if (data.type === 'userDatabase') {
+    if (window.isAdminUser) renderUserDatabase(data.users)
+    return
+  }
+
   if (data.type === 'chat') {
     addMessage(data)
   } else if (data.type === 'history') {
@@ -58,6 +70,25 @@ socket.addEventListener('message', (event) => {
   }
 })
 
+function renderUserDatabase(users) {
+  let container = document.getElementById('adminUserDb')
+  if (!container) {
+    container = document.createElement('div')
+    container.id = 'adminUserDb'
+    container.style = 'margin-top: 20px; background: rgba(0,0,0,0.8); color: white; padding: 10px; border: 2px solid #615eff; border-radius: 8px; max-height: 300px; overflow-y: auto; font-family: monospace;'
+    document.body.appendChild(container)
+  }
+
+  container.innerHTML = '<h3>User DB</h3>' + users.map(user => `
+    <div>
+      <strong>${escapeHtml(user.username)}</strong>
+      <span style="color:gray"> [Admin: ${user.isAdmin}]</span>
+      <br><small>Color: ${user.chatColor || 'None'}, PFP: ${user.pfp || 'default'}, Badges: ${user.badges || 'None'}</small>
+    </div>
+    <hr>
+  `).join('')
+}
+
 socket.addEventListener('close', () => {
   if (DEBUG) console.warn('WebSocket connection closed.')
 })
@@ -70,6 +101,7 @@ function addMessage(data) {
   const chatMessages = document.getElementById('chatMessages')
   const messageElement = document.createElement('div')
   messageElement.className = 'chat-message'
+  messageElement.style.paddingBottom = "10px"
   const img = document.createElement('img')
   img.src = data.pfp || 'assets/defaultPfp.png'
   img.alt = 'pfp'
@@ -79,10 +111,17 @@ function addMessage(data) {
     usernameSpan.style.color = data.chatColor
   }
   if (data.isAdmin) {
-    usernameSpan.style.background = 'linear-gradient(90deg, #ff00c8, #00ffd5)'
-    usernameSpan.style.webkitBackgroundClip = 'text'
-    usernameSpan.style.color = 'transparent'
+    const badgeImg = document.createElement('img')
+    badgeImg.src = 'assets/adminBadge.png'
+    badgeImg.alt = 'Admin'
+    badgeImg.style.width = '16px'
+    badgeImg.style.height = '16px'
+    badgeImg.style.marginRight = '4px'
+    badgeImg.style.verticalAlign = 'middle'
+    usernameSpan.prepend(badgeImg)
   }
+  usernameSpan.innerText += escapeHtml(data.username)
+
   usernameSpan.innerText = escapeHtml(data.username)
   const badgesSpan = document.createElement('span')
   if (data.badges) {

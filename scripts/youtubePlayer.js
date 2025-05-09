@@ -148,7 +148,10 @@ const videoIds = [
       const duration = player.getDuration();
       const seekTime = duration * (e.target.value / 100);
       player.seekTo(seekTime, true);
+
+      if (previewTime != null) {
       previewTime.textContent = formatTime(seekTime);
+      }
     });
   
     progressUpdater = setInterval(() => {
@@ -156,10 +159,19 @@ const videoIds = [
         const current = player.getCurrentTime();
         const duration = player.getDuration();
         const progress = (current / duration) * 100;
-  
+
         progressBar.value = progress;
-        previewTime.textContent = formatTime(current);
         progressBar.style.setProperty('--progress', `${progress}%`);
+
+        if (previewTime != null) {
+
+        if (current != null) {
+          previewTime.textContent = formatTime(current);
+        } else {
+          previewTime.textContent = "00:00";
+        }
+
+      }
       }
     }, 500);
   

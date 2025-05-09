@@ -813,24 +813,26 @@ input[type="range"]#volumeSlider::-webkit-slider-thumb {
 #chatRoomArea {
   width: 60vw;
   text-align: center;
+  position: relative;
 }
 
+
 #profileButton {
-  position: relative;
-  left: 45%;
+  position: absolute;
+  top: 10px;
+  right:10px;
   width: 80px;
-  max-width: 80px;
   height: 30px;
-  max-height: 40px;
   border: 2px solid #615eff;
   border-radius: 10px;
   font-family: monospace;
   font-size: 1rem;
   color: black;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255, 255, 255, 0.8);
   outline: none;
   transition: transform 0.5s;
   box-sizing: border-box;
+  z-index: 16;
 }
 
 #profileButton:hover {
@@ -843,7 +845,7 @@ input[type="range"]#volumeSlider::-webkit-slider-thumb {
   border-radius: 10px;
   padding: 20px;
   margin-top: 20px;
-  width: 90%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
