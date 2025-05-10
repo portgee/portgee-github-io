@@ -3,12 +3,12 @@ const DEBUG = true
 console.log('Connecting to WebSocket...')
 const socket = new WebSocket('wss://portgee-chat-server.onrender.com')
 
-let username = localStorage.getItem('chatUsername') || null
-let pfp = localStorage.getItem('chatPfp') || null
-let token = localStorage.getItem('chatToken') || null
-let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'
+let username = null
+let pfp = null
+let token = null
+let isLoggedIn = false
 
-if (DEBUG) console.log('Loaded from localStorage:', { username, pfp, token, isLoggedIn })
+const userCache = new Map()
 
 socket.addEventListener('open', () => {
   if (DEBUG) console.log('WebSocket connection opened.')
@@ -30,6 +30,12 @@ socket.addEventListener('message', (event) => {
   if (DEBUG) console.log('Received message from server:', event.data)
   const data = JSON.parse(event.data)
 
+  if (data.type === 'messageDeleted') {
+    const msg = document.querySelector(`.chat-message[data-id="${data.messageID}"]`)
+    if (msg) msg.remove()
+    return
+  }
+
   if (data.type === 'userDatabase') {
     if (window.isAdminUser) renderUserDatabase(data.users)
     return
@@ -40,7 +46,17 @@ socket.addEventListener('message', (event) => {
   } else if (data.type === 'history') {
     if (DEBUG) console.log(`Loading ${data.messages.length} messages from history`)
     document.getElementById('chatMessages').innerHTML = ''
-    data.messages.forEach(addMessage)
+    data.messages.forEach(msg => {
+      if (!userCache.has(msg.username.toLowerCase())) {
+        userCache.set(msg.username.toLowerCase(), {
+          pfp: msg.pfp || 'assets/defaultPfp.png',
+          chatColor: msg.chatColor || '',
+          isAdmin: msg.isAdmin || false,
+          badges: msg.badges || ''
+        })
+      }
+      addMessage(msg)
+    })
   } else if (data.type === 'authSuccess') {
     if (DEBUG) console.log('Auth success')
     username = data.username
@@ -48,10 +64,6 @@ socket.addEventListener('message', (event) => {
     token = data.token
     window.isAdminUser = data.isAdmin
     isLoggedIn = true
-    localStorage.setItem('chatUsername', username)
-    localStorage.setItem('chatPfp', pfp)
-    localStorage.setItem('chatToken', token)
-    localStorage.setItem('isLoggedIn', 'true')
     document.getElementById('loginArea').style.display = 'none'
     document.getElementById('profileButton').style.display = 'block'
     showNotification(`Logged in as ${username}`, 'lightgreen', 3000)
@@ -59,7 +71,8 @@ socket.addEventListener('message', (event) => {
     if (data.message.includes('Authentication failed')) {
       if (DEBUG) console.warn('Guest detected.')
       isLoggedIn = false
-      localStorage.setItem('isLoggedIn', 'false')
+      username = null
+      pfp = null
     } else {
       showNotification(data.message, 'red', 3000)
     }
@@ -95,6 +108,8 @@ socket.addEventListener('close', () => {
 
 socket.addEventListener('error', (error) => {
   if (DEBUG) console.error('WebSocket error:', error)
+  if (DEBUG) showNotification(error)
+  addSystemMessage("[ERROR] A WebSocket error occured, please reload.", "red")
 })
 
 function addMessage(data) {
@@ -103,7 +118,8 @@ function addMessage(data) {
   messageElement.className = 'chat-message'
   messageElement.style.paddingBottom = "10px"
   const img = document.createElement('img')
-  img.src = data.pfp || 'assets/defaultPfp.png'
+  const userInfo = userCache.get(data.username.toLowerCase()) || {}
+  img.src = userInfo.pfp || data.pfp || 'assets/defaultPfp.png'
   img.alt = 'pfp'
   img.className = 'chat-pfp'
   const usernameSpan = document.createElement('strong')
@@ -147,6 +163,7 @@ function addMessage(data) {
       <button onclick="banUser('${data.username}')">Ban</button>
       <button onclick="muteUser('${data.username}')">Mute</button>
       <button onclick="promoteUser('${data.username}')">Promote</button>
+      <button onclick="deleteMessage('${data.id}')">Delete Message</button>
     `
     adminControls.style.marginLeft = '10px'
     messageElement.appendChild(adminControls)
@@ -155,11 +172,11 @@ function addMessage(data) {
   chatMessages.scrollTop = chatMessages.scrollHeight
 }
 
-function addSystemMessage(message) {
+function addSystemMessage(message, color = "orange") {
   const chatMessages = document.getElementById('chatMessages')
   const systemElement = document.createElement('div')
   systemElement.className = 'chat-message'
-  systemElement.innerHTML = `<em style="color: orange;">${escapeHtml(message)}</em>`
+  systemElement.innerHTML = `<em style="color: ${color};">${escapeHtml(message)}</em>`
   chatMessages.appendChild(systemElement)
   chatMessages.scrollTop = chatMessages.scrollHeight
 }
@@ -177,7 +194,6 @@ document.getElementById('sendButton').addEventListener('click', () => {
     }
     finalUsername = finalUsername.charAt(0).toUpperCase() + finalUsername.slice(1)
     username = finalUsername
-    localStorage.setItem('guestUsername', finalUsername)
   }
   if (DEBUG) console.log('Sending chat message:', { username: finalUsername, message })
   socket.send(JSON.stringify({ type: 'chat', username: finalUsername, message }))
@@ -248,4 +264,10 @@ function promoteUser(targetUsername) {
     if (DEBUG) console.log('Sending promote for', targetUsername)
     socket.send(JSON.stringify({ type: 'promoteUser', targetUsername }))
   }
+}
+
+function deleteMessage(targetMessageID) {
+  if (confirm(`Delete message with id ${targetMessageID}?`))
+    if (DEBUG) console.log('Sending delete for', targetMessageID)
+    socket.send(JSON.stringify({ type: 'deleteMessage', targetMessageID}))
 }
