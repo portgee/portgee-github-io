@@ -37,3 +37,4 @@ function applyMovingGradient(element) {
 }
 
 document.querySelectorAll('.animatedText').forEach(applyMovingGradient);
+window.applyMovingGradient = applyMovingGradient

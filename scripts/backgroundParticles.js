@@ -1,4 +1,16 @@
-const characters = ["⭐", "🌟", "✨", "💫", ":freddyPlushie:", "🪐", "🌙", ":AstolfoPlushie:", ":catplush:"];
+const config = {
+  minSize: 25,
+  maxSize: 55,
+  spawnInterval: 60,
+  lifespan: 3000,
+  font: 'Poppins'
+};
+
+const characters = [
+  "⭐", "🌟", "✨", "💫", "🪐", "🌙", "🌌", "🌠", "💥", "🧿", "🎇", "🌈", "🛸", "🦄", "🧸",
+  ":freddyPlushie:", ":AstolfoPlushie:", ":catplush:",
+  "🌀", "🌜", "🌛", "🔮", "👾", "🪄", "💎", "⚡", "🌧️", "🌟", "🍬", "🍭", "🎈", "🎉", "🎊"
+];
 
 function createEmojiImg(name, url) {
   const img = document.createElement('img');
@@ -6,14 +18,14 @@ function createEmojiImg(name, url) {
   img.alt = `:${name}:`;
   img.className = 'emoji-inline';
   img.style.position = 'fixed';
-  img.style.width = (Math.random() * 40 + 25) + 'px';
+  img.style.width = (Math.random() * (config.maxSize - config.minSize) + config.minSize) + 'px';
   img.style.height = 'auto';
   img.style.zIndex = 1;
   return img;
 }
 
 async function spawnItem() {
-  if (toggleValBackground === false) {return;}
+  if (toggleValBackground === false) return;
 
   const map = await loadEmojiMap();
   const itemVal = characters[Math.floor(Math.random() * characters.length)];
@@ -22,12 +34,12 @@ async function spawnItem() {
     ? createEmojiImg(itemVal.slice(1, -1), map[itemVal.slice(1, -1)])
     : document.createElement('div');
 
-
   item.className = 'backgroundItem';
+
   if (!isCustomEmoji) {
     item.textContent = itemVal;
-    item.style.fontSize = (Math.random() * 40 + 25) + 'px';
-    item.style.fontFamily = 'Poppins';
+    item.style.fontSize = (Math.random() * (config.maxSize - config.minSize) + config.minSize) + 'px';
+    item.style.fontFamily = config.font;
     item.style.color = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
   }
 
@@ -36,8 +48,7 @@ async function spawnItem() {
   item.style.left = Math.random() * window.innerWidth + 'px';
 
   document.body.appendChild(item);
-  setTimeout(() => item.remove(), 3000);
+  setTimeout(() => item.remove(), config.lifespan);
 }
 
-setInterval(spawnItem, 60);
-
+setInterval(spawnItem, config.spawnInterval);

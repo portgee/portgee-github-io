@@ -1,4 +1,3 @@
-
 html, body {
   height: 100%;
   margin: 0;
@@ -7,7 +6,7 @@ html, body {
 }
 
 body {
-  background: url("assets/light-background.gif") no-repeat center;
+  background: url("assets/backgrounds/light-background.gif") no-repeat center;
   background-size: cover;
   background-position: center;
 }
@@ -62,7 +61,7 @@ body {
   min-height: 70vh;
   height: 92vh;
   margin-top: 7.5vh;
-  background: url('assets/bubbleStars.gif');
+  background: url('assets/backgrounds/bubbleStars.gif');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -112,7 +111,7 @@ body {
   top: 0;
   left: 0;
   width: 7%;
-  max-width: 125px;
+  max-width: 100px;
   min-width: 80px;
   height: auto;
   z-index: 7;
@@ -172,7 +171,7 @@ body {
 }
 
 .mainGui {
-  background: linear-gradient(#00000096, #00000096), url('assets/starfallPurple.gif');
+  background: linear-gradient(#00000096, #00000096), url('assets/backgrounds/starfallPurple.gif');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -401,13 +400,13 @@ body {
   right: 10px;
   width: 5%;
   height: 15%;
-  background: url("assets/trashcan.png") no-repeat center center;
+  background: url("assets/objects/trashcan.png") no-repeat center center;
   background-size: contain;
   z-index: 1;
 }
 
 #middleGui {
-  background: linear-gradient(#0000004b, #0000004b), url('assets/starsColor.gif');
+  background: linear-gradient(#0000004b, #0000004b), url('assets/backgrounds/starsColor.gif');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -419,7 +418,7 @@ body {
 }
 
 #lootboxArea {
-  background: url('assets/pastelPattern.gif');
+  background: url('assets/backgrounds/pastelPattern.gif');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -458,7 +457,7 @@ body {
 #hiddenBrick {
   width: 100px;
   height: 60px;
-  background: url('assets/brick.png') no-repeat center/cover;
+  background: url('assets/objects/brick.png') no-repeat center/cover;
   cursor: pointer;
   opacity: 0.7;
   transition: opacity 0.3s;
@@ -478,7 +477,7 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: url('assets/brickWall.jpg') repeat;
+  background: url('assets/backgrounds/brickWall.jpg') repeat;
   background-size: 100px;
   z-index: 9999;
   overflow: auto;
@@ -567,7 +566,7 @@ body {
 
 #ytVisualContainer {
   background: 
-    url("assets/music.gif");
+    url("assets/backgrounds/music.gif");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -684,7 +683,7 @@ input[type="range"]#volumeSlider::-webkit-slider-thumb {
 }
 
 #virtualDesktop {
-  background: url('assets/movingstars.gif');
+  background: url('assets/backgrounds/movingstars.gif');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -705,7 +704,7 @@ input[type="range"]#volumeSlider::-webkit-slider-thumb {
 }
 
 #paintArea {
-  background: url('assets/windows95.jpg');
+  background: url('assets/backgrounds/windows95.jpg');
   width: 60%;
   height: 70vh;
   box-shadow: 0 0 15px rgba(0,0,0,0.5);
@@ -783,14 +782,12 @@ input[type="range"]#volumeSlider::-webkit-slider-thumb {
   background-repeat: no-repeat;
 }
 
-
 @keyframes shrinkPop {
   0%   { transform: scale(0); opacity: 0; }
   30%  { transform: scale(1.2); opacity: 0.5; }
   60%  { transform: scale(1); opacity: 0.2; }
   100% { transform: scale(0); opacity: 0; }
 }
-
 
 @media (max-width: 900px) {
   #sidebar {
@@ -811,11 +808,12 @@ input[type="range"]#volumeSlider::-webkit-slider-thumb {
 }
 
 #chatRoomArea {
+  background: linear-gradient(#0000009c, #0000009c), url('assets/backgrounds/rainbowBubble.gif') no-repeat fixed center;
+  background-size: cover;
   width: 60vw;
   text-align: center;
   position: relative;
 }
-
 
 #profileButton {
   position: absolute;

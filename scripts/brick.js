@@ -20,7 +20,7 @@ function brickClicked() {
     brick.style.left = '0'
     brick.style.width = '100vw'
     brick.style.height = '100vh'
-    brick.style.backgroundImage = 'url("./assets/brickWall.jpg")'
+    brick.style.backgroundImage = 'url("./assets/backgrounds/brickWall.jpg")'
     brick.style.backgroundSize = 'cover'
     brick.style.backgroundPosition = 'center'
     brick.style.zIndex = '9999'

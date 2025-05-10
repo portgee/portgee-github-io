@@ -8,59 +8,73 @@ let pfp = null
 let token = null
 let isLoggedIn = false
 
+const ADMIN_BADGE_SRC = 'assets/chatRoom/adminBadge.png'
+const DEFAULT_PFP_SRC = 'assets/chatRoom/defaultPfp.png'
+
 const userCache = new Map()
+
+loadEmojiMap().then(map => {
+  emojiMap = map
+  if (DEBUG) console.log('Emoji map loaded', emojiMap)
+}).catch(err => {
+  if (DEBUG) console.error('Error loading emoji map', err)
+})
 
 socket.addEventListener('open', () => {
   if (DEBUG) console.log('WebSocket connection opened.')
   if (isLoggedIn && username && token) {
-    if (DEBUG) console.log('Sending auth...')
+    if (DEBUG) console.log('Sending auth', { username, token })
     socket.send(JSON.stringify({ type: 'auth', username, token }))
   } else {
-    if (DEBUG) console.log('No saved login, proceeding as guest.')
+    if (DEBUG) console.log('No saved login, proceeding as guest')
   }
 })
 
 function requestUserDatabase() {
   if (window.isAdminUser) {
+    if (DEBUG) console.log('Requesting user database')
     socket.send(JSON.stringify({ type: 'getUserDatabase' }))
   }
 }
 
 socket.addEventListener('message', (event) => {
   if (DEBUG) console.log('Received message from server:', event.data)
-  const data = JSON.parse(event.data)
+  let data
+  try {
+    data = JSON.parse(event.data)
+  } catch (e) {
+    if (DEBUG) console.error('JSON parse error', e)
+    return
+  }
 
   if (data.type === 'messageDeleted') {
+    if (DEBUG) console.log('Deleting message with ID:', data.messageID)
     const msg = document.querySelector(`.chat-message[data-id="${data.messageID}"]`)
     if (msg) msg.remove()
     return
   }
 
   if (data.type === 'userDatabase') {
+    if (DEBUG) console.log('User database received')
     if (window.isAdminUser) renderUserDatabase(data.users)
     return
   }
 
   if (data.type === 'chat') {
+    if (DEBUG) console.log('Chat message received:', data)
     addMessage(data)
   } else if (data.type === 'history') {
     if (DEBUG) console.log(`Loading ${data.messages.length} messages from history`)
     document.getElementById('chatMessages').innerHTML = ''
-    data.messages.forEach(msg => {
-      if (!userCache.has(msg.username.toLowerCase())) {
-        userCache.set(msg.username.toLowerCase(), {
-          pfp: msg.pfp || 'assets/defaultPfp.png',
-          chatColor: msg.chatColor || '',
-          isAdmin: msg.isAdmin || false,
-          badges: msg.badges || ''
-        })
-      }
-      addMessage(msg)
+    Object.entries(data.userCache).forEach(([name, info]) => {
+      if (DEBUG) console.log('Caching user:', name, info)
+      userCache.set(name.toLowerCase(), info)
     })
+    data.messages.forEach(msg => addMessage(msg))
   } else if (data.type === 'authSuccess') {
-    if (DEBUG) console.log('Auth success')
+    if (DEBUG) console.log('Auth success:', data)
     username = data.username
-    pfp = data.pfp || 'assets/defaultPfp.png'
+    pfp = data.pfp || DEFAULT_PFP_SRC
     token = data.token
     window.isAdminUser = data.isAdmin
     isLoggedIn = true
@@ -68,22 +82,37 @@ socket.addEventListener('message', (event) => {
     document.getElementById('profileButton').style.display = 'block'
     showNotification(`Logged in as ${username}`, 'lightgreen', 3000)
   } else if (data.type === 'error') {
+    if (DEBUG) console.warn('Server error:', data.message)
     if (data.message.includes('Authentication failed')) {
-      if (DEBUG) console.warn('Guest detected.')
       isLoggedIn = false
       username = null
       pfp = null
+      if (DEBUG) console.warn('Guest fallback mode activated')
     } else {
       showNotification(data.message, 'red', 3000)
     }
   } else if (data.type === 'system') {
+    if (DEBUG) console.log('System message received:', data.message)
     addSystemMessage(data.message)
   } else if (data.type === 'typing') {
+    if (DEBUG) console.log('Typing event:', data.username)
     showTyping(data.username)
+  } else {
+    if (DEBUG) console.warn('Unknown message type:', data)
   }
 })
 
+socket.addEventListener('close', () => {
+  if (DEBUG) console.warn('WebSocket connection closed')
+})
+
+socket.addEventListener('error', (error) => {
+  if (DEBUG) console.error('WebSocket error:', error)
+  addSystemMessage("[ERROR] A WebSocket error occurred, please reload.", "red")
+})
+
 function renderUserDatabase(users) {
+  if (DEBUG) console.log('Rendering user database')
   let container = document.getElementById('adminUserDb')
   if (!container) {
     container = document.createElement('div')
@@ -102,46 +131,54 @@ function renderUserDatabase(users) {
   `).join('')
 }
 
-socket.addEventListener('close', () => {
-  if (DEBUG) console.warn('WebSocket connection closed.')
-})
-
-socket.addEventListener('error', (error) => {
-  if (DEBUG) console.error('WebSocket error:', error)
-  if (DEBUG) showNotification(error)
-  addSystemMessage("[ERROR] A WebSocket error occured, please reload.", "red")
-})
-
 function addMessage(data) {
+  if (DEBUG) console.log('Rendering message:', data)
   const chatMessages = document.getElementById('chatMessages')
   const messageElement = document.createElement('div')
   messageElement.className = 'chat-message'
-  messageElement.style.paddingBottom = "10px"
-  const img = document.createElement('img')
+  messageElement.style.paddingBottom = '10px'
+  messageElement.dataset.id = data.id
+
   const userInfo = userCache.get(data.username.toLowerCase()) || {}
-  img.src = userInfo.pfp || data.pfp || 'assets/defaultPfp.png'
+  if (DEBUG) console.log('User info for message:', userInfo)
+
+  const img = document.createElement('img')
+  img.src = userInfo.pfp || data.pfp || DEFAULT_PFP_SRC
   img.alt = 'pfp'
   img.className = 'chat-pfp'
+
   const usernameSpan = document.createElement('strong')
-  if (data.chatColor) {
-    usernameSpan.style.color = data.chatColor
+  const colorVal = userInfo.chatColor || ''
+  if (colorVal.startsWith('gradient:')) {
+    const gradientParts = colorVal.slice(9).split(';')
+    const [colors, angle = '270', speed = '6', easing = 'ease', backgroundSize = '800% 800%'] = gradientParts
+    usernameSpan.classList.add('animatedText')
+    usernameSpan.dataset.colors = colors
+    usernameSpan.dataset.angle = angle
+    usernameSpan.dataset.speed = speed
+    usernameSpan.dataset.easing = easing
+    usernameSpan.dataset.backgroundSize = backgroundSize
+    if (typeof applyMovingGradient === 'function') applyMovingGradient(usernameSpan)
+  } else {
+    usernameSpan.style.color = colorVal
   }
-  if (data.isAdmin) {
+
+  usernameSpan.appendChild(document.createTextNode(data.username))
+
+  if (userInfo.isAdmin) {
     const badgeImg = document.createElement('img')
-    badgeImg.src = 'assets/adminBadge.png'
+    badgeImg.src = ADMIN_BADGE_SRC
     badgeImg.alt = 'Admin'
     badgeImg.style.width = '16px'
     badgeImg.style.height = '16px'
-    badgeImg.style.marginRight = '4px'
+    badgeImg.style.marginLeft = '4px'
     badgeImg.style.verticalAlign = 'middle'
-    usernameSpan.prepend(badgeImg)
+    usernameSpan.appendChild(badgeImg)
   }
-  usernameSpan.innerText += escapeHtml(data.username)
 
-  usernameSpan.innerText = escapeHtml(data.username)
   const badgesSpan = document.createElement('span')
-  if (data.badges) {
-    const badgeList = data.badges.split(',').map(b => b.trim()).filter(b => b)
+  if (userInfo.badges) {
+    const badgeList = userInfo.badges.split(',').map(b => b.trim()).filter(b => b)
     badgeList.forEach(badge => {
       const badgeElement = document.createElement('span')
       badgeElement.textContent = ` [${badge}]`
@@ -151,12 +188,18 @@ function addMessage(data) {
       badgesSpan.appendChild(badgeElement)
     })
   }
+
   const messageContent = document.createElement('span')
   messageContent.innerHTML = `: ${escapeHtml(data.message)}`
+  if (typeof replaceEmojisInElement === 'function' && emojiMap) {
+    replaceEmojisInElement(messageContent, emojiMap)
+  }
+
   messageElement.appendChild(img)
   messageElement.appendChild(usernameSpan)
   messageElement.appendChild(badgesSpan)
   messageElement.appendChild(messageContent)
+
   if (isLoggedIn && window.isAdminUser) {
     const adminControls = document.createElement('span')
     adminControls.innerHTML = `
@@ -168,11 +211,13 @@ function addMessage(data) {
     adminControls.style.marginLeft = '10px'
     messageElement.appendChild(adminControls)
   }
+
   chatMessages.appendChild(messageElement)
   chatMessages.scrollTop = chatMessages.scrollHeight
 }
 
 function addSystemMessage(message, color = "orange") {
+  if (DEBUG) console.log('Adding system message:', message)
   const chatMessages = document.getElementById('chatMessages')
   const systemElement = document.createElement('div')
   systemElement.className = 'chat-message'
@@ -180,6 +225,7 @@ function addSystemMessage(message, color = "orange") {
   chatMessages.appendChild(systemElement)
   chatMessages.scrollTop = chatMessages.scrollHeight
 }
+
 
 document.getElementById('sendButton').addEventListener('click', () => {
   const input = document.getElementById('chatInput')
@@ -269,5 +315,5 @@ function promoteUser(targetUsername) {
 function deleteMessage(targetMessageID) {
   if (confirm(`Delete message with id ${targetMessageID}?`))
     if (DEBUG) console.log('Sending delete for', targetMessageID)
-    socket.send(JSON.stringify({ type: 'deleteMessage', targetMessageID}))
+    socket.send(JSON.stringify({ type: 'deleteMessage', messageID: targetMessageID }))
 }

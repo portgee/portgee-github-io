@@ -1,4 +1,4 @@
-const config = {
+const itemConfig = {
     minSize: 50,
     maxSize: 500,
     normalScaleFactor: 1.05,
@@ -167,25 +167,25 @@ function makeDraggable(img) {
         event.preventDefault()
         let currentWidth = img.offsetWidth
         let currentHeight = img.offsetHeight
-        let scaleBase = event.deltaY < 0 ? config.normalScaleFactor : 1 / config.normalScaleFactor
-        let scaleAmount = event.shiftKey ? (event.deltaY < 0 ? config.fastScaleFactor : 1 / config.fastScaleFactor) : scaleBase
+        let scaleBase = event.deltaY < 0 ? itemConfig.normalScaleFactor : 1 / itemConfig.normalScaleFactor
+        let scaleAmount = event.shiftKey ? (event.deltaY < 0 ? itemConfig.fastScaleFactor : 1 / itemConfig.fastScaleFactor) : scaleBase
         let newWidth = currentWidth * scaleAmount
         let newHeight = currentHeight * scaleAmount
         const aspectRatio = currentWidth / currentHeight
-        if (newWidth > config.maxSize) {
-            newWidth = config.maxSize
+        if (newWidth > itemConfig.maxSize) {
+            newWidth = itemConfig.maxSize
             newHeight = newWidth / aspectRatio
         }
-        if (newHeight > config.maxSize) {
-            newHeight = config.maxSize
+        if (newHeight > itemConfig.maxSize) {
+            newHeight = itemConfig.maxSize
             newWidth = newHeight * aspectRatio
         }
-        if (newWidth < config.minSize) {
-            newWidth = config.minSize
+        if (newWidth < itemConfig.minSize) {
+            newWidth = itemConfig.minSize
             newHeight = newWidth / aspectRatio
         }
-        if (newHeight < config.minSize) {
-            newHeight = config.minSize
+        if (newHeight < itemConfig.minSize) {
+            newHeight = itemConfig.minSize
             newWidth = newHeight * aspectRatio
         }
         const x = parseFloat(img.dataset.x) || 0

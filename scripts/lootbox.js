@@ -40,7 +40,8 @@ const rarityColors = {
   common: '#ffc0cb',
   rare: '#ff69b4',
   epic: '#db4bc4',
-  legendary: '#bf00ff'
+  legendary: '#bf00ff',
+  mythical: '#00fff2'
 }
 
 let inventory = {}
@@ -72,7 +73,8 @@ function getRandomItem() {
   if (chance < 0.6) pool = items.filter(i => i.rarity === 'common')
   else if (chance < 0.85) pool = items.filter(i => i.rarity === 'rare')
   else if (chance < 0.98) pool = items.filter(i => i.rarity === 'epic')
-  else pool = items.filter(i => i.rarity === 'legendary')
+  else if (chance < 0.995) pool = items.filter(i => i.rarity === 'legendary')
+  else pool = items.filter(i => i.rarity === 'mythical')
   if (!pool.length) pool = items
   return pool[Math.floor(Math.random() * pool.length)]
 }

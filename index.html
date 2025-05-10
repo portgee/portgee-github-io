@@ -3,17 +3,16 @@
 <head>
   <base href="./">
   <title>Portgee's Pond</title>
-  <link rel="icon" type="image/x-icon" href="assets/sun.png">
+  <link rel="icon" type="image/x-icon" href="assets/objects/sun.png">
   <link rel="stylesheet" type="text/css" href="styles.css">
   <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 </head>
 <body>
     <div id="oneko"></div>
     <div id="themeContainer">
-      <img src="assets/sun.png" alt="Sun" class="sun" onclick="toggleTheme()"/>
-      <img src="assets/moon.png" alt="Moon" class="moon hidden" onclick="toggleTheme()"/>
+      <img src="assets/objects/sun.png" alt="Sun" class="sun" onclick="toggleTheme()"/>
+      <img src="assets/objects/moon.png" alt="Moon" class="moon hidden" onclick="toggleTheme()"/>
     </div>
-
     <div id="nowPlaying">
       <div id="vinylWrapper">
         <div id="vinyl">
@@ -24,15 +23,14 @@
         <div id="trackInfo">Now Playing: Unknown</div>
       </div>
     </div>
-    
     <div id="eventBar" class="mainGui">
       <p id="eventBarText" class="animatedText"
-      data-colors="#ff7e5f,#feb47b,#86a8e7,#91eae4,#ff7e5f"
-      data-angle="90" 
-      data-speed="10" 
-      data-background-size="800% 800%" 
-      data-easing="ease-in-out">
-      Event: None
+        data-colors="#2b5876,#4e4376,#6a11cb,#2575fc,#6dd5ed"
+        data-angle="100" 
+        data-speed="14" 
+        data-background-size="1000% 1000%" 
+        data-easing="ease-in-out">
+        Event: None
       </p>
     </div>
     <div id="container">
@@ -44,6 +42,7 @@
         <button class="mainButton" onclick="scrollToSection('virtualDesktop')">🖥️ Virtual Desktop</button>
         <button class="mainButton" onclick="scrollToSection('terminal')">:developer: Terminal</button>
         <button class="mainButton" onclick="scrollToSection('youtubeDiv')">🎵 Music</button>
+        <button class="mainButton" onclick="scrollToSection('chatRoomArea')">💬 Chat Room</button>
         <button class="mainButton" onclick="addItem()">:animalLickingCinnamonroll: Upload Item</button>
         <input type="file" id="fileInput" style="display:none" accept="image/*" onchange="handleFileUpload(event)">
         <button class="mainButton" onclick="toggleWeatherSetting()">🌧️ Weather</button>
@@ -85,7 +84,7 @@
   ⠸⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣧⠀⣈⢉⠹⡆⠀⠀⠀⠀⠘⠷⠶⠚⠓⢶⡴⠛⠀⠀⠀⠀⠀⠈⠛⠿⠛⠀⠀⠀⠀⢸⣦⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠲⣦⣀⠀⠀⠀
   ⠀⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢷⣄⠚⠚⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡞⡉⣉⢍⣻⢲⡀⢻⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢳⣄⠀
   ⠀⠈⠻⣦⣄⠀⠀⠀⠀⠀⠀⠀⠀⣀⣴⠏⠙⠿⠦⢤⣄⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠿⠾⠿⠧⠼⢣⡈⢿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⡆
-  ⠀⠀⠀⠀⠙⠛⠿⠶⠶⠶⠶⠿⠛⠋⠁⠁⠀⠀⠀⠀⠀⠉⠉⠙⣻⣶⠶⠶⠦⠤⠤⣤⣤⣤⣄⣀⣀⣀⣀⣀⣠⣤⣥⡶⠶⠛⠛⠋⢻⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡇
+  ⠀⠀⠀⠀⠙⠛⠿⠶⠶⠶⠶⠿⠛⠋⠁⠁⠀⠀⠀⠀⠀⠉⠉⠙⣻⣶⠶⠶⠦⠤⠤⣤⣤⣤⣄⣀⣀⣀⣀⣀⣠⣤⣥⡶⠶⠛⠛⠋⢻⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡇
   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⣠⡾⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⡉⡉⠉⣹⣿⣂⠀⠄⠀⠀⠀⠀⠙⢷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡾⠁
   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⡀⠼⠀⠀⠀⠀⠄⣿⠀⠀⢀⣠⣶⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⡶⠛⠉⠉⠙⠻⠷⢤⠀⠀⠀⠀⠀⠉⠻⢶⣤⣀⣀⣀⠀⣀⣤⡴⠏⠀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡽⢾⣿⣿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⢠⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⢳⡄⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠀⠀⠀⠀⠀
@@ -118,8 +117,14 @@
                 data-easing="ease-in-out" style="text-align: center;">
                 Item Catalog
             </h1>
-
             <div id="itemCatalogInner">
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/milk.png');" onclick="spawnItem('milk.png')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/blueButterflies.gif');" onclick="spawnItem('blueButterflies.gif')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/book.gif');" onclick="spawnItem('book.gif')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/heart.gif');" onclick="spawnItem('heart.gif')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/potion.gif');" onclick="spawnItem('potion.gif')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/umbrella.gif');" onclick="spawnItem('umbrella.gif')"></button>
+              <button class="catalog-item" style="background-image: url('assets/itemPlayground/bongocat.gif');" onclick="spawnItem('bongocat.gif')"></button>
               <button class="catalog-item" style="background-image: url('assets/itemPlayground/blahaj.gif');" onclick="spawnItem('blahaj.gif')"></button>
               <button class="catalog-item" style="background-image: url('assets/itemPlayground/bow.png');" onclick="spawnItem('bow.png')"></button>
               <button class="catalog-item" style="background-image: url('assets/itemPlayground/deathScythe.gif');" onclick="spawnItem('deathScythe.gif')"></button>
@@ -134,7 +139,7 @@
               <button class="catalog-item" style="background-image: url('assets/itemPlayground/pumpkinGuy.png');" onclick="spawnItem('pumpkinGuy.png')"></button>
               <button class="catalog-item" style="background-image: url('assets/itemPlayground/reimore.png');" onclick="spawnItem('reimore.png')"></button>
               <button class="catalog-item" style="background-image: url('assets/itemPlayground/sylveon.png');" onclick="spawnItem('sylveon.png')"></button>
-              <button class="catalog-item" style="background-image: url('assets/itemPlayground/milk.png');" onclick="spawnItem('milk.png')"></button>
+
             </div>
           </div>
         </div>
@@ -160,33 +165,28 @@
           </div>
         </div>        
         <script src="https://www.youtube.com/iframe_api"></script>       
-        
         <div class="mainGui" id="chatRoomArea">
           <button id="profileButton">Profile</button>
           <h1 class="animatedText"
-              data-colors="#00c8ff,#1472ff,#00ffd5,#00c8ff"
-              data-angle="270"
-              data-speed="8"
-              data-background-size="800% 800%"
+              data-colors="#0f0c29,#302b63,#24243e,#5f72bd,#9b23ea,#e94057,#fffcdc"
+              data-angle="160"
+              data-speed="22"
+              data-background-size="1400% 1400%"
               data-easing="ease-in-out">
               Public Chatroom
           </h1>
-          
           <div id="chatMessages" class="chat-messages"></div>
-      
           <div id="chatInputArea" class="chat-input-area">
             <div id="typingIndicator" class="typing-indicator"></div>
               <input id="chatInput" type="text" class="chat-input" placeholder="Type your message...">
               <button id="sendButton" class="mainButton chat-send-button">Send</button>
           </div>
-      
           <div id="loginArea" class="chat-login-area">
               <input id="usernameInput" type="text" class="chat-login-input" placeholder="Username">
               <input id="passwordInput" type="password" class="chat-login-input" placeholder="Password">
-              <input id="pfpInput" type="text" class="chat-login-input" placeholder="Profile Picture URL (optional)">
+              <input id="pfpInput" type="text" class="chat-login-input" placeholder="Profile Picture URL (optional)" style="display: none;">
               <button id="loginButton" class="mainButton chat-login-button">Login / Register</button>
           </div>
-
           <div id="profileMenu" style="display: none;">
             <h2>Edit Profile</h2>
             <input id="colorInput" type="color" value="#ffffff">

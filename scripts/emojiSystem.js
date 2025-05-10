@@ -121,4 +121,38 @@ async function startEmojiLiveReplacement() {
   handleTyping(map);
 }
 
+function replaceEmojisInElement(el, map) {
+  const regex = /:([a-zA-Z0-9_]+):/g;
+  let match;
+  const matches = [];
+  const text = el.innerText;
+
+  while ((match = regex.exec(text)) !== null) {
+    const name = match[1];
+    if (map[name]) {
+      matches.push({ index: match.index, length: match[0].length, name });
+    }
+  }
+
+  if (matches.length > 0) {
+    let lastIndex = 0;
+    const frag = document.createDocumentFragment();
+
+    for (const match of matches) {
+      const before = text.slice(lastIndex, match.index);
+      if (before) frag.appendChild(document.createTextNode(before));
+      frag.appendChild(createEmojiImg(match.name, map[match.name]));
+      lastIndex = match.index + match.length;
+    }
+
+    const after = text.slice(lastIndex);
+    if (after) frag.appendChild(document.createTextNode(after));
+
+    el.innerHTML = '';
+    el.appendChild(frag);
+  }
+}
+
+
 startEmojiLiveReplacement();
+window.replaceEmojisInElement = replaceEmojisInElement

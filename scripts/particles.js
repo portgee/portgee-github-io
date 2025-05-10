@@ -1,5 +1,5 @@
 const particleSettings = {
-  images: ['assets/blossom.png'],
+  images: ['assets/objects/blossom.png'],
   emissionRate: 3,
   startSize: { min: 5, max: 20 },
   endSize: 0,
