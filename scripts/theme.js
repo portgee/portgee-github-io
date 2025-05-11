@@ -16,6 +16,8 @@ function toggleTheme() {
     ? 'url("assets/backgrounds/light-background.webp")'
     : 'url("assets/backgrounds/dark-background.webp")';
 
-  //mainGui.style.borderColor = moon.classList.contains("hidden") ? '#0400ffa8' : '#9493ffa8';
+  document.querySelectorAll('.mainGui').forEach(el => {
+    el.style.borderColor = moon.classList.contains("hidden") ? '#615eff' : '#7900d6';
+  });
 }
 

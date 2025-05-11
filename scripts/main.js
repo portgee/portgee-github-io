@@ -137,3 +137,15 @@ function clearItems() {
   const area = document.getElementById('itemPlayground')
   if (area) area.innerHTML = ''
 }
+
+fetch('files/ascii_art.txt')
+  .then(res => res.text())
+  .then(text => {
+    const blocks = text.split(/\s*===\s*/).map(b => b.trim()).filter(Boolean)
+    const randomArt = blocks[Math.floor(Math.random() * blocks.length)]
+    document.getElementById('asciiArt').textContent = randomArt
+  })
+  .catch(err => {
+    document.getElementById('asciiArt').textContent = 'Error loading ASCII art.'
+    console.error(err)
+  })
