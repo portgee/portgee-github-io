@@ -165,21 +165,21 @@ function handleCalculatorInput(input, display) {
 }
 
 const images = [
-    'assets/itemPlayground/blahaj.gif',
-    'assets/itemPlayground/bow.png',
-    'assets/itemPlayground/deathScythe.gif',
-    'assets/itemPlayground/diamond.png',
-    'assets/itemPlayground/disc.png',
-    'assets/itemPlayground/empressOfLight.gif',
-    'assets/itemPlayground/heartCrystal.gif',
-    'assets/itemPlayground/kitty.png',
-    'assets/itemPlayground/miku.png',
-    'assets/itemPlayground/milk.png',
-    'assets/itemPlayground/monster.png',
-    'assets/itemPlayground/mushrooms.gif',
-    'assets/itemPlayground/pumpkinGuy.png',
-    'assets/itemPlayground/reimore.png',
-    'assets/itemPlayground/sylveon.png'
+    'assets/itemPlayground/blahaj.webp',
+    'assets/itemPlayground/bow.webp',
+    'assets/itemPlayground/deathScythe.webp',
+    'assets/itemPlayground/diamond.webp',
+    'assets/itemPlayground/disc.webp',
+    'assets/itemPlayground/empressOfLight.webp',
+    'assets/itemPlayground/heartCrystal.webp',
+    'assets/itemPlayground/kitty.webp',
+    'assets/itemPlayground/miku.webp',
+    'assets/itemPlayground/milk.webp',
+    'assets/itemPlayground/monster.webp',
+    'assets/itemPlayground/mushrooms.webp',
+    'assets/itemPlayground/pumpkinGuy.webp',
+    'assets/itemPlayground/reimore.webp',
+    'assets/itemPlayground/sylveon.webp'
 ]
 
 function createGalleryApp() {
