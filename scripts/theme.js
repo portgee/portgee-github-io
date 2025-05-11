@@ -12,12 +12,19 @@ function toggleTheme() {
   moon.classList.toggle("hidden");
   sun.classList.toggle("hidden");
 
-  body.style.backgroundImage = moon.classList.contains("hidden")
+  const isLight = moon.classList.contains("hidden");
+
+  body.style.backgroundImage = isLight
     ? 'url("assets/backgrounds/light-background.webp")'
     : 'url("assets/backgrounds/dark-background.webp")';
 
   document.querySelectorAll('.mainGui').forEach(el => {
-    el.style.borderColor = moon.classList.contains("hidden") ? '#615eff' : '#7900d6';
+    el.style.borderColor = isLight ? '#615eff' : '#7900d6';
   });
+
+  const favicon = document.getElementById("favicon");
+  favicon.href = isLight
+    ? "assets/objects/sun.webp"
+    : "assets/objects/moon.webp";
 }
 

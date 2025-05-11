@@ -84,9 +84,9 @@ function dragElement(elmnt) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    createIcon('Notepad', 'https://cdn-icons-png.flaticon.com/512/716/716784.png', '<div contenteditable="true" style="width:100%;height:100%;background:#23272a;color:white;border:none;outline:none;resize:none;font-family:Poppins;padding:10px;overflow:auto;">Type here...</div>')
-    createIcon('Calculator', 'https://cdn-icons-png.flaticon.com/512/3039/3039436.png', createCalculatorApp())
-    createIcon('Gallery', 'https://cdn-icons-png.flaticon.com/512/2950/2950701.png', createGalleryApp())
+    createIcon('Notepad', 'assets/objects/notepad.webp', '<div contenteditable="true" style="width:100%;height:100%;background:#23272a;color:white;border:none;outline:none;resize:none;font-family:Poppins;padding:10px;overflow:auto;">Type here...</div>')
+    createIcon('Calculator', 'assets/objects/calculator.webp', createCalculatorApp())
+    createIcon('Gallery', 'assets/objects/gallery.webp', createGalleryApp())
 })
 
 
