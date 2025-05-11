@@ -10,7 +10,7 @@ function applyMovingGradient(element) {
   const colors = element.getAttribute('data-colors')?.split(',') || ['#ff00c8', '#1472ff', '#00ffd5', '#ff00c8']
   const angleAttr = element.getAttribute('data-angle') || '270'
   const speed = parseFloat(element.getAttribute('data-speed')) || 6
-  const backgroundSize = element.getAttribute('data-background-size') || '800% 800%'
+  const backgroundSize = element.getAttribute('data-background-size') || '200% 200%' // Reduced
   const easing = element.getAttribute('data-easing') || 'ease'
 
   const useClipText = supportsBackgroundClipText()
@@ -27,7 +27,7 @@ function applyMovingGradient(element) {
           element.style.webkitBackgroundClip = 'text'
           element.style.webkitTextFillColor = 'transparent'
         }
-      }, speed * 3)
+      }, speed * 5)
     }
   } else {
     if (!sharedGradientStyleInjected) {
@@ -57,14 +57,9 @@ function applyMovingGradient(element) {
 window.applyMovingGradient = applyMovingGradient
 
 window.addEventListener('load', () => {
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        applyMovingGradient(entry.target)
-        obs.unobserve(entry.target)
-      }
+  requestIdleCallback(() => {
+    document.querySelectorAll('.animatedText').forEach(el => {
+      applyMovingGradient(el)
     })
-  }, { rootMargin: '0px 0px 200px 0px' })
-
-  document.querySelectorAll('.animatedText').forEach(el => observer.observe(el))
+  }, { timeout: 1000 })
 })
