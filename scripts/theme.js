@@ -13,8 +13,8 @@ function toggleTheme() {
   sun.classList.toggle("hidden");
 
   body.style.backgroundImage = moon.classList.contains("hidden")
-    ? 'url("assets/backgrounds/light-background.gif")'
-    : 'url("assets/backgrounds/dark-background.gif")';
+    ? 'url("assets/backgrounds/light-background.webp")'
+    : 'url("assets/backgrounds/dark-background.webp")';
 
   //mainGui.style.borderColor = moon.classList.contains("hidden") ? '#0400ffa8' : '#9493ffa8';
 }

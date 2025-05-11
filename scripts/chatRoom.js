@@ -1,7 +1,7 @@
 const DEBUG = true
 const socket = new WebSocket('wss://portgee-chat-server.onrender.com')
-const ADMIN_BADGE_SRC = 'assets/chatRoom/adminBadge.png'
-const DEFAULT_PFP_SRC = 'assets/chatRoom/defaultPfp.png'
+const ADMIN_BADGE_SRC = 'assets/chatRoom/adminBadge.webp'
+const DEFAULT_PFP_SRC = 'assets/chatRoom/defaultPfp.webp'
 const userCache = new Map()
 const MAX_CHAT_MESSAGES = 200
 

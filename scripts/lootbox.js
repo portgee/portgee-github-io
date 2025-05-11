@@ -1,39 +1,39 @@
 const lootboxArea = document.getElementById('lootboxArea')
 
 const items = [
-  { name: 'Cute Skirt', rarity: 'common', img: 'cute_skirt.png' },
-  { name: 'Fluffy Ears', rarity: 'common', img: 'fluffy_ears.png' },
-  { name: 'Bunny Slippers', rarity: 'common', img: 'bunny_slippers.png' },
-  { name: 'Heart Choker', rarity: 'common', img: 'heart_choker.png' },
-  { name: 'Pink Hoodie', rarity: 'common', img: 'pink_hoodie.png' },
-  { name: 'Mini Skirt', rarity: 'common', img: 'mini_skirt.png' },
-  { name: 'Oversized Sweater', rarity: 'common', img: 'oversized_sweater.png' },
-  { name: 'Star Hairclip', rarity: 'common', img: 'star_hairclip.png' },
-  { name: 'Frilly Socks', rarity: 'common', img: 'frilly_socks.png' },
-  { name: 'Paw Gloves', rarity: 'common', img: 'paw_gloves.png' },
-  { name: 'Cat Tail', rarity: 'common', img: 'cat_tail.png' },
-  { name: 'Lace Arm Warmers', rarity: 'common', img: 'lace_arm_warmers.png' },
-  { name: 'Strawberry Clip', rarity: 'common', img: 'strawberry_clip.png' },
-  { name: 'Crop Top', rarity: 'common', img: 'crop_top.png' },
-  { name: 'Fluffy Scarf', rarity: 'common', img: 'fluffy_scarf.png' },
-  { name: 'Moon Earrings', rarity: 'common', img: 'moon_earrings.png' },
-  { name: 'Cute Glasses', rarity: 'common', img: 'cute_glasses.png' },
-  { name: 'Starry Tights', rarity: 'common', img: 'starry_tights.png' },
-  { name: 'Monster Energy', rarity: 'rare', img: 'monster_energy.png' },
+  { name: 'Cute Skirt', rarity: 'common', img: 'cute_skirt.webp' },
+  { name: 'Fluffy Ears', rarity: 'common', img: 'fluffy_ears.webp' },
+  { name: 'Bunny Slippers', rarity: 'common', img: 'bunny_slippers.webp' },
+  { name: 'Heart Choker', rarity: 'common', img: 'heart_choker.webp' },
+  { name: 'Pink Hoodie', rarity: 'common', img: 'pink_hoodie.webp' },
+  { name: 'Mini Skirt', rarity: 'common', img: 'mini_skirt.webp' },
+  { name: 'Oversized Sweater', rarity: 'common', img: 'oversized_sweater.webp' },
+  { name: 'Star Hairclip', rarity: 'common', img: 'star_hairclip.webp' },
+  { name: 'Frilly Socks', rarity: 'common', img: 'frilly_socks.webp' },
+  { name: 'Paw Gloves', rarity: 'common', img: 'paw_gloves.webp' },
+  { name: 'Cat Tail', rarity: 'common', img: 'cat_tail.webp' },
+  { name: 'Lace Arm Warmers', rarity: 'common', img: 'lace_arm_warmers.webp' },
+  { name: 'Strawberry Clip', rarity: 'common', img: 'strawberry_clip.webp' },
+  { name: 'Crop Top', rarity: 'common', img: 'crop_top.webp' },
+  { name: 'Fluffy Scarf', rarity: 'common', img: 'fluffy_scarf.webp' },
+  { name: 'Moon Earrings', rarity: 'common', img: 'moon_earrings.webp' },
+  { name: 'Cute Glasses', rarity: 'common', img: 'cute_glasses.webp' },
+  { name: 'Starry Tights', rarity: 'common', img: 'starry_tights.webp' },
+  { name: 'Monster Energy', rarity: 'rare', img: 'monster_energy.webp' },
   { name: 'Pink Stockings', rarity: 'rare', img: 'pink_stockings.jpg' },
-  { name: 'Thigh High Boots', rarity: 'rare', img: 'thigh_high_boots.png' },
-  { name: 'Bunny Outfit', rarity: 'rare', img: 'bunny_outfit.png' },
-  { name: 'Silky Gloves', rarity: 'rare', img: 'silky_gloves.png' },
-  { name: 'Neko Ears Headband', rarity: 'rare', img: 'neko_ears_headband.png' },
-  { name: 'Cat Collar', rarity: 'rare', img: 'cat_collar.png' },
-  { name: 'Fluffy Tail Plug', rarity: 'rare', img: 'fluffy_tail_plug.png' },
-  { name: 'Garter Belt', rarity: 'rare', img: 'garter_belt.png' },
-  { name: 'Femboy Panties', rarity: 'epic', img: 'femboy_panties.png' },
-  { name: 'Catboy Hoodie', rarity: 'epic', img: 'catboy_hoodie.png' },
-  { name: 'Cinnamoroll Plushie', rarity: 'epic', img: 'cinnamoroll_plushie.png' },
-  { name: 'Fishnets', rarity: 'epic', img: 'fishnets.png' },
-  { name: 'Blahaj', rarity: 'legendary', img: 'blahaj.gif' },
-  { name: 'Dildo', rarity: 'legendary', img: 'dildo.png' }
+  { name: 'Thigh High Boots', rarity: 'rare', img: 'thigh_high_boots.webp' },
+  { name: 'Bunny Outfit', rarity: 'rare', img: 'bunny_outfit.webp' },
+  { name: 'Silky Gloves', rarity: 'rare', img: 'silky_gloves.webp' },
+  { name: 'Neko Ears Headband', rarity: 'rare', img: 'neko_ears_headband.webp' },
+  { name: 'Cat Collar', rarity: 'rare', img: 'cat_collar.webp' },
+  { name: 'Fluffy Tail Plug', rarity: 'rare', img: 'fluffy_tail_plug.webp' },
+  { name: 'Garter Belt', rarity: 'rare', img: 'garter_belt.webp' },
+  { name: 'Femboy Panties', rarity: 'epic', img: 'femboy_panties.webp' },
+  { name: 'Catboy Hoodie', rarity: 'epic', img: 'catboy_hoodie.webp' },
+  { name: 'Cinnamoroll Plushie', rarity: 'epic', img: 'cinnamoroll_plushie.webp' },
+  { name: 'Fishnets', rarity: 'epic', img: 'fishnets.webp' },
+  { name: 'Blahaj', rarity: 'legendary', img: 'blahaj.webp' },
+  { name: 'Dildo', rarity: 'legendary', img: 'dildo.webp' }
 ]
 
 const rarityColors = {
@@ -196,7 +196,7 @@ function updateInventory() {
 }
 
 function saveInventory() {
-  CookieManager.set('inventory', JSON.stringify(inventory), { path: '/', expires: 31536000 })
+  CookieManager.set('inventory', JSON.strinwebpy(inventory), { path: '/', expires: 31536000 })
 }
 
 function loadInventory() {

@@ -6,7 +6,7 @@ html, body {
 }
 
 body {
-  background: url("assets/backgrounds/light-background.gif") no-repeat center;
+  background: url("assets/backgrounds/light-background.webp") no-repeat center;
   background-size: cover;
   background-position: center;
 }
@@ -61,7 +61,7 @@ body {
   min-height: 70vh;
   height: 92vh;
   margin-top: 7.5vh;
-  background: url('assets/backgrounds/bubbleStars.gif');
+  background: url('assets/backgrounds/bubbleStars.webp');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -171,7 +171,7 @@ body {
 }
 
 .mainGui {
-  background: linear-gradient(#00000096, #00000096), url('assets/backgrounds/starfallPurple.gif');
+  background: linear-gradient(#00000096, #00000096), url('assets/backgrounds/starfallPurple.webp');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -400,13 +400,13 @@ body {
   right: 10px;
   width: 5%;
   height: 15%;
-  background: url("assets/objects/trashcan.png") no-repeat center center;
+  background: url("assets/objects/trashcan.webp") no-repeat center center;
   background-size: contain;
   z-index: 1;
 }
 
 #middleGui {
-  background: linear-gradient(#0000004b, #0000004b), url('assets/backgrounds/starsColor.gif');
+  background: linear-gradient(#0000004b, #0000004b), url('assets/backgrounds/starsColor.webp');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -418,7 +418,7 @@ body {
 }
 
 #lootboxArea {
-  background: url('assets/backgrounds/pastelPattern.gif');
+  background: url('assets/backgrounds/pastelPattern.webp');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -457,7 +457,7 @@ body {
 #hiddenBrick {
   width: 100px;
   height: 60px;
-  background: url('assets/objects/brick.png') no-repeat center/cover;
+  background: url('assets/objects/brick.webp') no-repeat center/cover;
   cursor: pointer;
   opacity: 0.7;
   transition: opacity 0.3s;
@@ -477,7 +477,7 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: url('assets/backgrounds/brickWall.jpg') repeat;
+  background: url('assets/backgrounds/brickWall.webp') repeat;
   background-size: 100px;
   z-index: 9999;
   overflow: auto;
@@ -566,7 +566,7 @@ body {
 
 #ytVisualContainer {
   background: 
-    url("assets/backgrounds/music.gif");
+    url("assets/backgrounds/music.webp");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -683,7 +683,7 @@ input[type="range"]#volumeSlider::-webkit-slider-thumb {
 }
 
 #virtualDesktop {
-  background: url('assets/backgrounds/movingstars.gif');
+  background: url('assets/backgrounds/movingstars.webp');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -704,7 +704,7 @@ input[type="range"]#volumeSlider::-webkit-slider-thumb {
 }
 
 #paintArea {
-  background: url('assets/backgrounds/windows95.jpg');
+  background: url('assets/backgrounds/windows95.webp');
   width: 60%;
   height: 70vh;
   box-shadow: 0 0 15px rgba(0,0,0,0.5);
@@ -808,7 +808,7 @@ input[type="range"]#volumeSlider::-webkit-slider-thumb {
 }
 
 #chatRoomArea {
-  background: linear-gradient(#0000009c, #0000009c), url('assets/backgrounds/rainbowBubble.gif') no-repeat fixed center;
+  background: linear-gradient(#0000009c, #0000009c), url('assets/backgrounds/rainbowBubble.webp') no-repeat fixed center;
   background-size: cover;
   width: 60vw;
   text-align: center;

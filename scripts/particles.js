@@ -1,5 +1,5 @@
 const particleSettings = {
-  images: ['assets/objects/blossom.png'],
+  images: ['assets/objects/blossom.webp'],
   emissionRate: 3,
   startSize: { min: 5, max: 20 },
   endSize: 0,
@@ -27,7 +27,7 @@ const customRainParticles = [];
 const customCloudParticles = [];
 const lightningBolts = [];
 const cloudImages = [];
-const cloudImageSources = ['assets/event/cloud1.png'];
+const cloudImageSources = ['assets/event/cloud1.webp'];
 let cloudImagesLoaded = 0;
 let rainSound = new Audio('assets/audio/rain.mp3');
 rainSound.volume = 0.5;
