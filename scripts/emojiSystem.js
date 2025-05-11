@@ -1,158 +1,108 @@
-let emojiMap = null;
+let emojiMap = null
 
 async function loadEmojiMap() {
-  if (emojiMap) return emojiMap;
-  const res = await fetch('files/emojiMap.json');
-  emojiMap = await res.json();
-  return emojiMap;
+  if (emojiMap) return emojiMap
+  const res = await fetch('files/emojiMap.json')
+  emojiMap = await res.json()
+  return emojiMap
 }
 
 function escapeRegex(str) {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
 function createEmojiImg(name, url) {
-  const img = document.createElement('img');
-  img.src = url;
-  img.alt = `:${name}:`;
-  img.className = 'emoji-inline';
-  return img;
+  const img = document.createElement('img')
+  img.src = url
+  img.alt = `:${name}:`
+  img.className = 'emoji-inline'
+  return img
+}
+
+function getEmojiMatches(text, map) {
+  const matches = []
+  const regex = /:([a-zA-Z0-9_]+):/g
+  let match
+  while ((match = regex.exec(text)) !== null) {
+    const name = match[1]
+    if (map[name]) {
+      matches.push({ index: match.index, length: match[0].length, name })
+    }
+  }
+  return matches
+}
+
+function buildFragmentWithEmojis(text, matches, map) {
+  let last = 0
+  const frag = document.createDocumentFragment()
+  for (const m of matches) {
+    if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)))
+    frag.appendChild(createEmojiImg(m.name, map[m.name]))
+    last = m.index + m.length
+  }
+  if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)))
+  return frag
 }
 
 function replaceContentInContentEditable(el, map) {
-  const selection = window.getSelection();
-  const range = selection.getRangeAt(0);
-  const container = range.startContainer;
-
-  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null)
   while (walker.nextNode()) {
-    const node = walker.currentNode;
-    const regex = /:([a-zA-Z0-9_]+):/g;
-    let match;
-    const matches = [];
-    while ((match = regex.exec(node.textContent)) !== null) {
-      const name = match[1];
-      if (map[name]) {
-        matches.push({ index: match.index, length: match[0].length, name });
-      }
-    }
-
-    if (matches.length > 0) {
-      let lastIndex = 0;
-      const frag = document.createDocumentFragment();
-      const text = node.textContent;
-
-      for (const match of matches) {
-        const before = text.slice(lastIndex, match.index);
-        if (before) frag.appendChild(document.createTextNode(before));
-        frag.appendChild(createEmojiImg(match.name, map[match.name]));
-        lastIndex = match.index + match.length;
-      }
-
-      const after = text.slice(lastIndex);
-      if (after) frag.appendChild(document.createTextNode(after));
-
-      const parent = node.parentNode;
-      parent.replaceChild(frag, node);
+    const node = walker.currentNode
+    const matches = getEmojiMatches(node.textContent, map)
+    if (matches.length) {
+      const frag = buildFragmentWithEmojis(node.textContent, matches, map)
+      node.parentNode.replaceChild(frag, node)
     }
   }
 }
 
 function replaceInInputs(el, map) {
-  const regex = /:([a-zA-Z0-9_]+):/g;
-  el.value = el.value.replace(regex, (match, name) => {
-    return map[name] ? '🔹' : match; // placeholder for emoji
-  });
+  el.value = el.value.replace(/:([a-zA-Z0-9_]+):/g, (m, name) => map[name] ? '🔹' : m)
 }
 
 function handleTyping(map) {
   document.body.addEventListener('input', e => {
-    const el = e.target;
+    const el = e.target
     if (el.isContentEditable) {
-      replaceContentInContentEditable(el, map);
-    } else if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') {
-      replaceInInputs(el, map);
+      replaceContentInContentEditable(el, map)
+    } else if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      replaceInInputs(el, map)
     }
-  });
+  }, { passive: true })
 }
 
 function replaceStaticTextNodes(map) {
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-  const regex = /:([a-zA-Z0-9_]+):/g;
-  const nodes = [];
-
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null)
+  const nodes = []
   while (walker.nextNode()) {
-    const node = walker.currentNode;
-    if (node.parentNode && !node.parentNode.closest('script, style, textarea')) {
-      nodes.push(node);
+    const node = walker.currentNode
+    if (!node.parentNode.closest('script, style, textarea')) {
+      nodes.push(node)
     }
   }
-
   for (const node of nodes) {
-    let match;
-    const matches = [];
-    const text = node.textContent;
-    while ((match = regex.exec(text)) !== null) {
-      const name = match[1];
-      if (map[name]) {
-        matches.push({ index: match.index, length: match[0].length, name });
-      }
+    const matches = getEmojiMatches(node.textContent, map)
+    if (matches.length) {
+      const frag = buildFragmentWithEmojis(node.textContent, matches, map)
+      node.parentNode.replaceChild(frag, node)
     }
+  }
+}
 
-    if (matches.length > 0) {
-      let lastIndex = 0;
-      const frag = document.createDocumentFragment();
-      for (const match of matches) {
-        const before = text.slice(lastIndex, match.index);
-        if (before) frag.appendChild(document.createTextNode(before));
-        frag.appendChild(createEmojiImg(match.name, map[match.name]));
-        lastIndex = match.index + match.length;
-      }
-      const after = text.slice(lastIndex);
-      if (after) frag.appendChild(document.createTextNode(after));
-      node.parentNode.replaceChild(frag, node);
-    }
+function replaceEmojisInElement(el, map) {
+  const matches = getEmojiMatches(el.innerText, map)
+  if (matches.length) {
+    const frag = buildFragmentWithEmojis(el.innerText, matches, map)
+    el.innerHTML = ''
+    el.appendChild(frag)
   }
 }
 
 async function startEmojiLiveReplacement() {
-  const map = await loadEmojiMap();
-  replaceStaticTextNodes(map);
-  handleTyping(map);
+  const map = await loadEmojiMap()
+  replaceStaticTextNodes(map)
+  handleTyping(map)
 }
 
-function replaceEmojisInElement(el, map) {
-  const regex = /:([a-zA-Z0-9_]+):/g;
-  let match;
-  const matches = [];
-  const text = el.innerText;
-
-  while ((match = regex.exec(text)) !== null) {
-    const name = match[1];
-    if (map[name]) {
-      matches.push({ index: match.index, length: match[0].length, name });
-    }
-  }
-
-  if (matches.length > 0) {
-    let lastIndex = 0;
-    const frag = document.createDocumentFragment();
-
-    for (const match of matches) {
-      const before = text.slice(lastIndex, match.index);
-      if (before) frag.appendChild(document.createTextNode(before));
-      frag.appendChild(createEmojiImg(match.name, map[match.name]));
-      lastIndex = match.index + match.length;
-    }
-
-    const after = text.slice(lastIndex);
-    if (after) frag.appendChild(document.createTextNode(after));
-
-    el.innerHTML = '';
-    el.appendChild(frag);
-  }
-}
-
-
-startEmojiLiveReplacement();
+startEmojiLiveReplacement()
 window.replaceEmojisInElement = replaceEmojisInElement

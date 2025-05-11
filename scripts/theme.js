@@ -16,6 +16,6 @@ function toggleTheme() {
     ? 'url("assets/backgrounds/light-background.gif")'
     : 'url("assets/backgrounds/dark-background.gif")';
 
-  // mainGui.style.backgroundColor = moon.classList.contains("hidden") ? '#0400ffa8' : '#9493ffa8';
+  //mainGui.style.borderColor = moon.classList.contains("hidden") ? '#0400ffa8' : '#9493ffa8';
 }
 

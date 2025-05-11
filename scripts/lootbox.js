@@ -49,7 +49,6 @@ let busy = false
 let lastWinningIndex = null
 let lastItemWidth = null
 
-
 function createLootboxUI() {
   lootboxArea.innerHTML = `
     <div style="background:linear-gradient(to bottom,#ffe4f7,#ffe1f2);padding:20px;border-radius:20px;max-width:800px;margin:20px auto;box-shadow:0 0 20px #ff69b4;">
@@ -75,81 +74,56 @@ function getRandomItem() {
   else if (chance < 0.98) pool = items.filter(i => i.rarity === 'epic')
   else if (chance < 0.995) pool = items.filter(i => i.rarity === 'legendary')
   else pool = items.filter(i => i.rarity === 'mythical')
-  if (!pool.length) pool = items
-  return pool[Math.floor(Math.random() * pool.length)]
+  return pool.length ? pool[Math.floor(Math.random() * pool.length)] : items[Math.floor(Math.random() * items.length)]
 }
 
 function openCrate() {
   if (busy) return
   busy = true
   const openButton = document.getElementById('openCrate')
+  const strip = document.getElementById('itemStrip')
+  const rollContainer = document.getElementById('rollContainer')
   openButton.disabled = true
   openButton.style.opacity = 0.6
-  const strip = document.getElementById('itemStrip')
   strip.innerHTML = ''
   strip.style.transition = 'none'
   strip.style.left = '0px'
 
-  const rollContainer = document.getElementById('rollContainer')
-  const extraBefore = 20
-  const extraAfter = 10
-  const rollItems = []
-
-  for (let i = 0; i < extraBefore; i++) {
-    rollItems.push(items[Math.floor(Math.random() * items.length)])
-  }
-
+  const extraBefore = 20, extraAfter = 10
+  const rollItems = Array.from({ length: extraBefore }, () => items[Math.floor(Math.random() * items.length)])
   const winningItem = getRandomItem()
-  if (!winningItem) {
-    busy = false
-    openButton.disabled = false
-    openButton.style.opacity = 1
-    return
-  }
-
-  rollItems.push(winningItem)
-  for (let i = 0; i < extraAfter; i++) {
-    rollItems.push(items[Math.floor(Math.random() * items.length)])
-  }
+  rollItems.push(winningItem, ...Array.from({ length: extraAfter }, () => items[Math.floor(Math.random() * items.length)]))
 
   for (const it of rollItems) {
     const div = document.createElement('div')
-    div.style.background = rarityColors[it.rarity] || '#ccc'
-    div.style.width = '100px'
-    div.style.height = '100px'
-    div.style.margin = '0 3px'
-    div.style.borderRadius = '12px'
-    div.style.display = 'flex'
-    div.style.alignItems = 'center'
-    div.style.justifyContent = 'center'
-    div.style.lineHeight = '0'
+    Object.assign(div.style, {
+      background: rarityColors[it.rarity] || '#ccc',
+      width: '100px',
+      height: '100px',
+      margin: '0 3px',
+      borderRadius: '12px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      lineHeight: '0'
+    })
     const img = document.createElement('img')
-    img.src = 'assets/lootbox/' + it.img
-    img.style.width = '80px'
-    img.style.height = '80px'
-    img.style.borderRadius = '10px'
-    img.style.display = 'block'
+    Object.assign(img, {
+      src: 'assets/lootbox/' + it.img,
+      style: 'width:80px;height:80px;border-radius:10px;display:block'
+    })
     div.appendChild(img)
     strip.appendChild(div)
-  }  
+  }
 
-  setTimeout(() => {
-    const stripChildren = strip.children
-    if (!stripChildren.length) return
-
-    const itemElem = stripChildren[0]
-    const itemWidth = itemElem.offsetWidth + 6
+  requestAnimationFrame(() => {
+    const itemWidth = strip.firstChild.offsetWidth + 6
     lastItemWidth = itemWidth
-
     const spinDuration = 3.5 + Math.random() * 1.5
     strip.style.transition = `left ${spinDuration}s cubic-bezier(0.25, 1, 0.5, 1)`
-
-    const winningIndex = extraBefore
-    lastWinningIndex = winningIndex
-
     const centerOffset = (rollContainer.offsetWidth / 2) - (itemWidth / 2)
-    const finalLeft = (winningIndex * itemWidth - centerOffset) * -1
-
+    lastWinningIndex = extraBefore
+    const finalLeft = (lastWinningIndex * itemWidth - centerOffset) * -1
     strip.style.left = `${finalLeft}px`
 
     setTimeout(() => {
@@ -158,16 +132,15 @@ function openCrate() {
       openButton.disabled = false
       openButton.style.opacity = 1
     }, spinDuration * 1000)
-  }, 50)
+  })
 }
-
 
 function addToInventory(item) {
   if (!item || !item.name) return
   if (!inventory[item.name]) {
-    inventory[item.name] = { name: item.name, img: item.img, rarity: item.rarity, amount: 1 }
+    inventory[item.name] = { ...item, amount: 1 }
   } else {
-    inventory[item.name].amount += 1
+    inventory[item.name].amount++
   }
   saveInventory()
   updateInventory()
@@ -176,26 +149,26 @@ function addToInventory(item) {
 function updateInventory() {
   const inv = document.getElementById('inventory')
   inv.innerHTML = ''
-  const rarityOrder = { common: 1, rare: 2, epic: 3, legendary: 4 }
-  const sorted = Object.values(inventory).sort((a, b) => {
-    if (rarityOrder[a.rarity] !== rarityOrder[b.rarity]) {
-      return rarityOrder[a.rarity] - rarityOrder[b.rarity]
-    }
-    return a.name.localeCompare(b.name)
-  })
+  const order = { common: 1, rare: 2, epic: 3, legendary: 4 }
+  const sorted = Object.values(inventory).sort((a, b) =>
+    order[a.rarity] !== order[b.rarity]
+      ? order[a.rarity] - order[b.rarity]
+      : a.name.localeCompare(b.name)
+  )
   for (const entry of sorted) {
-    if (!entry || !entry.name || !entry.img || !entry.rarity) continue
     const div = document.createElement('button')
-    div.style.background = `linear-gradient(135deg, ${rarityColors[entry.rarity]}, #ffe4f7)`
-    div.style.width = '100px'
-    div.style.height = '100px'
-    div.style.borderRadius = '20px'
-    div.style.display = 'flex'
-    div.style.alignItems = 'center'
-    div.style.justifyContent = 'center'
-    div.style.flexDirection = 'column'
-    div.style.boxShadow = '0 0 10px #ff69b4'
-    div.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease'
+    Object.assign(div.style, {
+      background: `linear-gradient(135deg, ${rarityColors[entry.rarity]}, #ffe4f7)`,
+      width: '100px',
+      height: '100px',
+      borderRadius: '20px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      boxShadow: '0 0 10px #ff69b4',
+      transition: 'transform 0.3s ease, box-shadow 0.3s ease'
+    })
     div.onmouseover = () => {
       div.style.transform = 'scale(1.1)'
       div.style.boxShadow = '0 0 20px #ff69b4'
@@ -204,19 +177,18 @@ function updateInventory() {
       div.style.transform = 'scale(1)'
       div.style.boxShadow = '0 0 10px #ff69b4'
     }
-    div.onclick = () => {
-      openImageFullscreen('assets/lootbox/' + entry.img)
-    }
+    div.onclick = () => openImageFullscreen('assets/lootbox/' + entry.img)
+
     const img = document.createElement('img')
-    img.src = 'assets/lootbox/' + entry.img
-    img.style.width = '60px'
-    img.style.height = '60px'
-    img.style.borderRadius = '12px'
-    img.style.display = 'block'
+    Object.assign(img, {
+      src: 'assets/lootbox/' + entry.img,
+      style: 'width:60px;height:60px;border-radius:12px;display:block'
+    })
+
     const amount = document.createElement('div')
     amount.innerText = 'x' + entry.amount
-    amount.style.fontSize = '14px'
-    amount.style.color = 'white'
+    amount.style = 'font-size:14px;color:white'
+
     div.appendChild(img)
     div.appendChild(amount)
     inv.appendChild(div)
@@ -224,17 +196,17 @@ function updateInventory() {
 }
 
 function saveInventory() {
-  CookieManager.set('inventory', JSON.stringify(inventory), { path: '/', expires: 31536000 });
+  CookieManager.set('inventory', JSON.stringify(inventory), { path: '/', expires: 31536000 })
 }
 
 function loadInventory() {
-  const data = CookieManager.get('inventory');
+  const data = CookieManager.get('inventory')
   if (data) {
     try {
-      const parsed = JSON.parse(data);
-      if (typeof parsed === 'object' && parsed !== null) inventory = parsed;
+      const parsed = JSON.parse(data)
+      if (parsed && typeof parsed === 'object') inventory = parsed
     } catch {}
-    updateInventory();
+    updateInventory()
   }
 }
 
