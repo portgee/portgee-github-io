@@ -196,7 +196,7 @@ function updateInventory() {
 }
 
 function saveInventory() {
-  CookieManager.set('inventory', JSON.strinwebpy(inventory), { path: '/', expires: 31536000 })
+  CookieManager.set('inventory', JSON.stringify(inventory), { path: '/', expires: 31536000 })
 }
 
 function loadInventory() {
